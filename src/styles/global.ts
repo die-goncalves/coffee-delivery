@@ -19,8 +19,4 @@ export const GlobalStyle = createGlobalStyle`
     line-height: 1.3;
     font-size: 1rem;
   }
-
-  :focus {
-    outline: 0;
-  }
 `
