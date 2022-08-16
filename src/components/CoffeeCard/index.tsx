@@ -19,7 +19,7 @@ export function CoffeeCard() {
             <button>
               <Minus weight="fill" />
             </button>
-            <span>1</span>
+            <input type="number" min={0} readOnly placeholder="0" />
             <button>
               <Plus weight="fill" />
             </button>

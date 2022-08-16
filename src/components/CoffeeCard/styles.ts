@@ -75,8 +75,22 @@ export const Actions = styled.div`
     padding: 0.5rem;
     border-radius: 6px;
 
-    span {
+    input {
+      text-align: center;
+      width: 1.35rem;
+      background: transparent;
+      border: none;
       color: ${props => props.theme['base/title']};
+      pointer-events: none;
+
+      &::placeholder {
+        color: ${props => props.theme['base/label']};
+      }
+      &[type='number']::-webkit-inner-spin-button,
+      &[type='number']::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
     }
 
     button {
