@@ -3,6 +3,7 @@ import { ThemeProvider } from 'styled-components'
 import { defaultTheme } from './styles/themes/default'
 import { Router } from './Router'
 import { StockProvider } from './hooks/useStock'
+import { CartProvider } from './hooks/useCart'
 
 import { GlobalStyle } from './styles/global'
 
@@ -11,9 +12,11 @@ function App() {
     <>
       <ThemeProvider theme={defaultTheme}>
         <StockProvider>
-          <BrowserRouter>
-            <Router />
-          </BrowserRouter>
+          <CartProvider>
+            <BrowserRouter>
+              <Router />
+            </BrowserRouter>
+          </CartProvider>
         </StockProvider>
 
         <GlobalStyle />
