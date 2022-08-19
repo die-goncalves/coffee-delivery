@@ -1,30 +1,110 @@
 import { Minus, Plus, ShoppingCartSimple } from 'phosphor-react'
-import Arabe from '../../assets/arabe.png'
-import { Actions, BuyContainer, CoffeeCardContainer } from './styles'
+import { useEffect } from 'react'
+import { useForm } from 'react-hook-form'
+import { useCart } from '../../hooks/useCart'
+import { useStock } from '../../hooks/useStock'
+import { CoffeeInStockType } from '../../types'
+import { formatPrice } from '../../util/format'
+import { Actions, BuyContainer, CoffeeCardContainer, Tags } from './styles'
 
-export function CoffeeCard() {
+type CoffeeCardProps = {
+  coffee: CoffeeInStockType
+}
+
+type FormInputs = {
+  desiredQuantity: number
+}
+
+export function CoffeeCard({ coffee }: CoffeeCardProps) {
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    reset,
+    watch,
+    formState,
+    formState: { isSubmitSuccessful }
+  } = useForm<FormInputs>({ defaultValues: { desiredQuantity: 0 } })
+  const { stockSpecificCoffee } = useStock()
+  const { putCoffeeInCart } = useCart()
+
+  const priceFormatted = formatPrice({
+    options: { style: 'decimal', minimumFractionDigits: 2 },
+    number: coffee.price
+  })
+
+  async function handleAddCoffeeInCart(data: FormInputs) {
+    if (data.desiredQuantity) putCoffeeInCart(coffee, data.desiredQuantity)
+  }
+
+  const watchDesiredQuantity = watch('desiredQuantity')
+  const stockQuantityOfThisCoffee = stockSpecificCoffee(coffee.id) ?? 0
+  const disableIncreaseButton =
+    watchDesiredQuantity === stockQuantityOfThisCoffee
+
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset()
+    }
+  }, [formState, reset])
+
   return (
     <CoffeeCardContainer>
-      <img src={Arabe} alt="" />
-      <span>Tradicional</span>
-      <h1>Expresso Tradicional</h1>
-      <p>O tradicional café feito com água quente e grãos moídos</p>
+      <img src={coffee.image} alt={coffee.name} />
+      <Tags>
+        {coffee.tags.map(tag => (
+          <span key={tag}>{tag}</span>
+        ))}
+      </Tags>
+
+      <h1>{coffee.name}</h1>
+      <p>{coffee.description}</p>
 
       <BuyContainer>
         <div>
-          <span>R$</span> <span>9,90</span>
+          <span>R$</span> <span>{priceFormatted}</span>
         </div>
-        <Actions>
+        <Actions onSubmit={handleSubmit(handleAddCoffeeInCart)}>
           <div>
-            <button>
-              <Minus weight="fill" />
+            <button
+              type="button"
+              disabled={watchDesiredQuantity === 0}
+              onClick={() => {
+                const input = document.getElementById(
+                  `input:coffee-${coffee.id}`
+                ) as HTMLInputElement
+                if (input) {
+                  input.stepDown()
+                  setValue('desiredQuantity', parseInt(input.value))
+                }
+              }}
+            >
+              <Minus weight="bold" />
             </button>
-            <input type="number" min={0} readOnly placeholder="0" />
-            <button>
-              <Plus weight="fill" />
+            <input
+              id={`input:coffee-${coffee.id}`}
+              type="number"
+              min={0}
+              readOnly
+              {...register('desiredQuantity', { valueAsNumber: true })}
+            />
+            <button
+              type="button"
+              disabled={disableIncreaseButton}
+              onClick={() => {
+                const input = document.getElementById(
+                  `input:coffee-${coffee.id}`
+                ) as HTMLInputElement
+                if (input) {
+                  input.stepUp()
+                  setValue('desiredQuantity', parseInt(input.value))
+                }
+              }}
+            >
+              <Plus weight="bold" />
             </button>
           </div>
-          <button>
+          <button type="submit">
             <ShoppingCartSimple weight="fill" />
           </button>
         </Actions>
