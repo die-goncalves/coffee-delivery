@@ -1,38 +1,100 @@
 import { Minus, Plus, Trash } from 'phosphor-react'
-import Arabe from '../../assets/arabe.png'
+import { useCart } from '../../hooks/useCart'
+import { formatPrice } from '../../util/format'
+import { CoffeeInCartType } from '../../types'
 import {
   CoffeeSelectedContainer,
   OrderInfo,
   ChangeAmountCoffeeInCartContainer,
   RemoveCoffeeFromCartButton
 } from './styles'
+import { useStock } from '../../hooks/useStock'
 
-export function CoffeeSelected() {
+type CoffeeSelectedProps = {
+  coffee: CoffeeInCartType
+}
+
+export function CoffeeSelected({ coffee }: CoffeeSelectedProps) {
+  const { stockSpecificCoffee } = useStock()
+  const {
+    updateQuantityOfSpecificCoffeeInCart,
+    removeCoffeesSameTypeFromTheCart
+  } = useCart()
+
+  function handleIncreaseQuantity() {
+    updateQuantityOfSpecificCoffeeInCart(coffee, coffee.quantity + 1)
+  }
+  function handleDecreaseQuantity() {
+    if (coffee.quantity === 1) {
+      removeCoffeesSameTypeFromTheCart(coffee)
+    } else {
+      console.log(coffee.quantity)
+      updateQuantityOfSpecificCoffeeInCart(coffee, coffee.quantity - 1)
+    }
+  }
+  function removeCoffee() {
+    removeCoffeesSameTypeFromTheCart(coffee)
+  }
+
+  const price = formatPrice({
+    options: { style: 'currency', currency: 'BRL' },
+    number: coffee.price
+  })
+
+  const stockQuantityOfThisCoffee = stockSpecificCoffee(coffee.id) ?? 0
+  const disableIncreaseButton = coffee.quantity === stockQuantityOfThisCoffee
+
   return (
     <CoffeeSelectedContainer>
       <div>
-        <img src={Arabe} alt="" />
+        <img src={coffee.image} alt={coffee.name} />
 
         <OrderInfo>
-          <p>Expresso Tradicional</p>
+          <p>{coffee.name}</p>
           <div>
             <ChangeAmountCoffeeInCartContainer>
-              <button>
-                <Minus weight="fill" />
+              <button
+                type="button"
+                onClick={() => {
+                  const input = document.getElementById(
+                    `input:coffee-${coffee.id}`
+                  ) as HTMLInputElement
+                  if (input) {
+                    handleDecreaseQuantity()
+                  }
+                }}
+              >
+                <Minus weight="bold" />
               </button>
-              <input type="number" min={0} readOnly placeholder="0" />
-              <button>
-                <Plus weight="fill" />
+              <input
+                id={`input:coffee-${coffee.id}`}
+                type="number"
+                readOnly
+                value={coffee.quantity}
+              />
+              <button
+                type="button"
+                disabled={disableIncreaseButton}
+                onClick={() => {
+                  const input = document.getElementById(
+                    `input:coffee-${coffee.id}`
+                  ) as HTMLInputElement
+                  if (input) {
+                    handleIncreaseQuantity()
+                  }
+                }}
+              >
+                <Plus weight="bold" />
               </button>
             </ChangeAmountCoffeeInCartContainer>
-            <RemoveCoffeeFromCartButton>
+            <RemoveCoffeeFromCartButton type="button" onClick={removeCoffee}>
               <Trash />
               Remover
             </RemoveCoffeeFromCartButton>
           </div>
         </OrderInfo>
       </div>
-      <span>R$ 9,90</span>
+      <span>{price}</span>
     </CoffeeSelectedContainer>
   )
 }

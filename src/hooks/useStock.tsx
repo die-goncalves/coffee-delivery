@@ -9,6 +9,7 @@ import { CoffeeInStockType } from '../types'
 
 type StockContextType = {
   stock: CoffeeInStockType[]
+  stockSpecificCoffee: (coffeeId: string) => number | undefined
 }
 const StockContext = createContext({} as StockContextType)
 
@@ -30,10 +31,15 @@ export function StockProvider({ children }: StockProviderProps) {
     loadStock()
   }, [])
 
+  function stockSpecificCoffee(coffeeId: string) {
+    return stock.find(item => item.id === coffeeId)?.stock
+  }
+
   return (
     <StockContext.Provider
       value={{
-        stock
+        stock,
+        stockSpecificCoffee
       }}
     >
       {children}

@@ -120,5 +120,10 @@ export const ChangeAmountCoffeeInCartContainer = styled.div`
     svg {
       font-size: 0.875rem;
     }
+
+    &:disabled {
+      opacity: 0.25;
+      cursor: not-allowed;
+    }
   }
 `
