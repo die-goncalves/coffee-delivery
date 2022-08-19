@@ -1,6 +1,7 @@
 import CoffeeImage from '../../assets/coffee-image.png'
 import Background from '../../assets/background.png'
 import { Coffee, Package, ShoppingCart, Timer } from 'phosphor-react'
+import { CoffeeCard } from '../../components/CoffeeCard'
 import {
   CoffeeList,
   CoffeeListContainer,
@@ -12,9 +13,11 @@ import {
   MainContainer,
   TitleContainer
 } from './styles'
-import { CoffeeCard } from '../../components/CoffeeCard'
+import { useStock } from '../../hooks/useStock'
 
 export function Home() {
+  const { stock } = useStock()
+
   return (
     <HomeContainer>
       <IntroContainer>
@@ -63,12 +66,8 @@ export function Home() {
       <CoffeeListContainer>
         <h1>Nossos cafés</h1>
         <CoffeeList>
-          <CoffeeCard />
-          <CoffeeCard />
-          <CoffeeCard />
-          <CoffeeCard />
-          <CoffeeCard />
-          <CoffeeCard />
+          {!!stock.length &&
+            stock.map(coffee => <CoffeeCard key={coffee.id} coffee={coffee} />)}
         </CoffeeList>
       </CoffeeListContainer>
     </HomeContainer>
