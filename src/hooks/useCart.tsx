@@ -5,7 +5,8 @@ import { useStock } from './useStock'
 enum ActionTypes {
   INSERT_QUANTITY = 'INSERT_QUANTITY',
   UPDATE_QUANTITY = 'UPDATE_QUANTITY',
-  REMOVE_COFFEE = 'REMOVE_COFFEE'
+  REMOVE_COFFEE = 'REMOVE_COFFEE',
+  RESET_CART = 'RESET_CART'
 }
 
 type CartContextType = {
@@ -63,6 +64,8 @@ export function CartProvider({ children }: CartProviderProps) {
           })
         case ActionTypes.REMOVE_COFFEE:
           return state.filter(item => item.id !== action.payload.coffee.id)
+        case ActionTypes.RESET_CART:
+          return action.payload.initialState
         default:
           return state
       }
@@ -91,7 +94,6 @@ export function CartProvider({ children }: CartProviderProps) {
   function putCoffeeInCart(coffee: CoffeeInStockType, desiredQuantity: number) {
     const hasInStock = isCoffeeInTheStock(coffee.id, desiredQuantity)
 
-    console.log({ hasInStock })
     if (hasInStock) {
       dispatch({
         type: 'INSERT_QUANTITY',
@@ -106,7 +108,6 @@ export function CartProvider({ children }: CartProviderProps) {
   ) {
     const hasInStock = isCoffeeInTheStock(coffee.id, desiredQuantity)
 
-    console.log({ hasInStock })
     if (hasInStock) {
       dispatch({
         type: 'UPDATE_QUANTITY',

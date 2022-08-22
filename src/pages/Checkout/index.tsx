@@ -1,3 +1,13 @@
+import { useEffect } from 'react'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import zod from 'zod'
+import { useNavigate } from 'react-router-dom'
+import { formatPrice } from '../../util/format'
+import { CoffeeInCartType } from '../../types'
+import { CoffeeSelected } from '../../components/CoffeeSelected'
+import { useCart } from '../../hooks/useCart'
+import { useStock } from '../../hooks/useStock'
 import {
   Bank,
   CreditCard,
@@ -5,7 +15,6 @@ import {
   MapPinLine,
   Money
 } from 'phosphor-react'
-import { useForm } from 'react-hook-form'
 import {
   CheckoutContainer,
   DeliveryAddress,
@@ -13,18 +22,118 @@ import {
   InputsPaymentMethod,
   PaymentMethod,
   CoffeesInCart,
-  TotalPrice
+  TotalPrice,
+  InputStyle
 } from './styles'
-import { CoffeeSelected } from '../../components/CoffeeSelected'
+
+type FormInputs = {
+  postalCode: string
+  street: string
+  number: string
+  complement: string
+  neighborhood: string
+  city: string
+  state: string
+  paymentMethod: string
+}
+type Order = {
+  client: Omit<FormInputs, 'paymentMethod'>
+  cart: CoffeeInCartType[]
+  payment: { price: string } & Pick<FormInputs, 'paymentMethod'>
+}
+
+const schema = zod.object({
+  postalCode: zod
+    .string()
+    .min(1, { message: 'Campo obrigatório' })
+    .regex(/[0-9]{5}-[0-9]{3}/, { message: 'Deve ser um CEP válido' }),
+  street: zod.string().min(1, { message: 'Campo obrigatório' }),
+  number: zod
+    .number({
+      invalid_type_error: 'Número deve ser um inteiro'
+    })
+    .nonnegative({ message: 'Número deve ser maior ou igual a 0' }),
+  complement: zod.string().optional(),
+  neighborhood: zod.string().min(1, { message: 'Campo obrigatório' }),
+  city: zod.string().min(1, { message: 'Campo obrigatório' }),
+  state: zod.string().min(1, { message: 'Campo obrigatório' }),
+  paymentMethod: zod.nativeEnum(
+    { credit: 'credit', debit: 'debit', money: 'money' },
+    {
+      errorMap(issue, _ctx) {
+        if (issue.code === 'invalid_enum_value')
+          return { message: 'Selecione uma forma de pagamento' }
+        return { message: _ctx.defaultError }
+      }
+    }
+  )
+})
 
 export function Checkout() {
+  const navigate = useNavigate()
+  const { updateCoffeesInStock, updateStock } = useStock()
+  const { cart, dispatch } = useCart()
   const {
     register,
     handleSubmit,
-    formState: { errors }
-  } = useForm()
+    reset,
+    formState,
+    formState: { errors, isSubmitting, isSubmitSuccessful }
+  } = useForm<FormInputs>({
+    resolver: zodResolver(schema),
+    defaultValues: {
+      state: '',
+      street: '',
+      complement: '',
+      city: '',
+      postalCode: '',
+      neighborhood: '',
+      number: '',
+      paymentMethod: ''
+    }
+  })
 
-  const onSubmit = (data: any) => console.log(data)
+  const totalPriceItens = cart.reduce((acc, currentValue) => {
+    return acc + currentValue.quantity * currentValue.price
+  }, 0)
+  const totalPrice = totalPriceItens + 3.7
+
+  const totalPriceItensFormatted = formatPrice({
+    options: { style: 'currency', currency: 'BRL' },
+    number: totalPriceItens
+  })
+  const totalPriceFormatted = formatPrice({
+    options: { style: 'currency', currency: 'BRL' },
+    number: totalPrice
+  })
+
+  const onSubmit = async (data: FormInputs) => {
+    const order: Order = {
+      client: {
+        city: data.city,
+        complement: data.complement,
+        neighborhood: data.neighborhood,
+        number: data.number,
+        postalCode: data.postalCode,
+        state: data.state,
+        street: data.street
+      },
+      cart,
+      payment: { price: totalPriceFormatted, paymentMethod: data.paymentMethod }
+    }
+
+    await updateCoffeesInStock(cart)
+    updateStock(cart)
+    dispatch({ type: 'RESET_CART', payload: { initialState: [] } })
+
+    navigate('/success')
+  }
+
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset()
+    }
+  }, [formState, reset])
 
   return (
     <CheckoutContainer>
@@ -42,40 +151,63 @@ export function Checkout() {
               </header>
 
               <InputsDeliveryAddress>
-                <input type="text" placeholder="CEP" {...register('cep', {})} />
-                <input type="text" placeholder="Rua" {...register('rua', {})} />
+                <InputStyle
+                  type="text"
+                  placeholder="CEP"
+                  hasError={!!errors.postalCode}
+                  {...register('postalCode')}
+                />
+                <InputStyle
+                  type="text"
+                  placeholder="Rua"
+                  hasError={!!errors.street}
+                  {...register('street')}
+                />
                 <div>
-                  <input
+                  <InputStyle
                     type="number"
-                    placeholder="Numero"
-                    {...register('numero', {})}
+                    placeholder="Número"
+                    min={0}
+                    hasError={!!errors.number}
+                    {...register('number', {
+                      setValueAs: v => parseInt(v),
+                      valueAsNumber: true
+                    })}
                   />
                   <div>
-                    <input
+                    <InputStyle
                       type="text"
                       placeholder="Complemento"
-                      {...register('complemento', {})}
+                      hasError={!!errors.complement}
+                      {...register('complement', {})}
                     />
                     <span>Opcional</span>
                   </div>
                 </div>
                 <div>
-                  <input
+                  <InputStyle
                     type="text"
                     placeholder="Bairro"
-                    {...register('bairro', {})}
+                    hasError={!!errors.neighborhood}
+                    {...register('neighborhood', {})}
                   />
-                  <input
+                  <InputStyle
                     type="text"
                     placeholder="Cidade"
-                    {...register('cidade', {})}
+                    hasError={!!errors.city}
+                    {...register('city', {})}
                   />
-                  <input type="text" placeholder="UF" {...register('uf', {})} />
+                  <InputStyle
+                    type="text"
+                    placeholder="UF"
+                    hasError={!!errors.state}
+                    {...register('state', {})}
+                  />
                 </div>
               </InputsDeliveryAddress>
             </DeliveryAddress>
             <br />
-            <PaymentMethod>
+            <PaymentMethod hasError={!!errors.paymentMethod}>
               <header>
                 <CurrencyDollar />
                 <div>
@@ -89,34 +221,34 @@ export function Checkout() {
 
               <InputsPaymentMethod>
                 <input
-                  id="creditoId"
+                  id="creditId"
                   type="radio"
-                  value="credito"
-                  {...register('metodo')}
+                  value="credit"
+                  {...register('paymentMethod')}
                 />
-                <label htmlFor="creditoId">
+                <label htmlFor="creditId">
                   <CreditCard />
                   <span>Cartão de crédito</span>
                 </label>
 
                 <input
-                  id="debitoId"
+                  id="debitId"
                   type="radio"
-                  value="debito"
-                  {...register('metodo')}
+                  value="debit"
+                  {...register('paymentMethod')}
                 />
-                <label htmlFor="debitoId">
+                <label htmlFor="debitId">
                   <Bank />
                   <span>Cartão de débito</span>
                 </label>
 
                 <input
-                  id="dinheiroId"
+                  id="moneyId"
                   type="radio"
-                  value="dinheiro"
-                  {...register('metodo')}
+                  value="money"
+                  {...register('paymentMethod')}
                 />
-                <label htmlFor="dinheiroId">
+                <label htmlFor="moneyId">
                   <Money />
                   <span>Dinheiro</span>
                 </label>
@@ -127,12 +259,14 @@ export function Checkout() {
         <div>
           <h1>Cafés selecionados</h1>
           <CoffeesInCart>
-            <CoffeeSelected />
-            <CoffeeSelected />
+            {cart.map(item => (
+              <CoffeeSelected key={item.id} coffee={item} />
+            ))}
+
             <TotalPrice>
               <div>
                 <span>Total de itens</span>
-                <span>R$ 29,70</span>
+                <span>{totalPriceItensFormatted}</span>
               </div>
               <div>
                 <span>Entrega</span>
@@ -140,10 +274,14 @@ export function Checkout() {
               </div>
               <div>
                 <strong>Total</strong>
-                <strong>R$ 29,70</strong>
+                <strong>{totalPriceFormatted}</strong>
               </div>
             </TotalPrice>
-            <input type="submit" value="Confirmar pedido" />
+            <input
+              type="submit"
+              value="Confirmar pedido"
+              disabled={isSubmitting}
+            />
           </CoffeesInCart>
         </div>
       </form>

@@ -52,39 +52,15 @@ export const InputsDeliveryAddress = styled.div`
   flex-direction: column;
   gap: 1rem;
 
-  input {
-    font-size: 0.875rem;
-    padding: 0.75rem;
-    border-radius: 4px;
-    border: none;
-    background: ${props => props.theme['base/input']};
-    box-shadow: inset 0 0 0 2px ${props => props.theme['base/button']};
-    caret-color: ${props => props.theme['base/label']};
-
-    outline: none;
-
-    transition-duration: 0.2s;
-    transition-property: box-shadow;
-    transition-timing-function: ease-out;
-
-    &::placeholder {
-      font-size: 0.875rem;
-      color: ${props => props.theme['base/label']};
-    }
-    &:focus {
-      box-shadow: inset 0 0 0 2px ${props => props.theme['brand/yellow-dark']};
-    }
-
-    &[name='cep'] {
-      width: 12.5rem;
-    }
+  input[name='postalCode'] {
+    width: 12.5rem;
   }
 
   & > div:first-of-type {
     display: flex;
     gap: 0.75rem;
 
-    input[name='numero'] {
+    input[name='number'] {
       width: 12.5rem;
     }
     div {
@@ -113,19 +89,22 @@ export const InputsDeliveryAddress = styled.div`
     display: flex;
     gap: 0.75rem;
 
-    input[name='bairro'] {
+    input[name='neighborhood'] {
       width: 12.5rem;
     }
-    input[name='uf'] {
+    input[name='state'] {
       width: 3.75rem;
     }
-    input[name='cidade'] {
+    input[name='city'] {
       flex: 1;
     }
   }
 `
 
-export const PaymentMethod = styled.div`
+type PaymentMethodProps = {
+  hasError: boolean
+}
+export const PaymentMethod = styled.div<PaymentMethodProps>`
   display: flex;
   flex-direction: column;
   padding: 2.5rem;
@@ -151,6 +130,10 @@ export const PaymentMethod = styled.div`
       color: ${props => props.theme['base/text']};
     }
   }
+
+  ${props =>
+    props.hasError &&
+    `box-shadow: inset 0 0 0 2px ${props.theme['base/error']};`}
 `
 
 export const InputsPaymentMethod = styled.div`
@@ -237,8 +220,12 @@ export const CoffeesInCart = styled.div`
     transition-property: background-color;
     transition-timing-function: ease-out;
 
-    &:hover {
+    &:hover:not(:disabled) {
       background: ${props => props.theme['brand/yellow-dark']};
+    }
+    &:disabled {
+      cursor: wait;
+      opacity: 0.75;
     }
   }
 `
@@ -267,4 +254,39 @@ export const TotalPrice = styled.div`
       font-weight: 700;
     }
   }
+`
+
+const Input = styled.input`
+    font-size: 0.875rem;
+    padding: 0.75rem;
+    border-radius: 4px;
+    border: none;
+    background: ${props => props.theme['base/input']};
+    caret-color: ${props => props.theme['base/label']};
+
+    outline: none;
+
+    transition-duration: 0.2s;
+    transition-property: box-shadow;
+    transition-timing-function: ease-out;
+
+    &::placeholder {
+      font-size: 0.875rem;
+      color: ${props => props.theme['base/label']};
+    }
+  }
+`
+type InputStyleProps = {
+  hasError: boolean
+}
+export const InputStyle = styled(Input)<InputStyleProps>`
+  ${props =>
+    props.hasError
+      ? `box-shadow: inset 0 0 0 2px ${props.theme['base/error']};`
+      : `
+        box-shadow: inset 0 0 0 2px ${props.theme['base/button']};
+        &:focus {
+          box-shadow: inset 0 0 0 2px ${props.theme['brand/yellow-dark']};
+        }
+      `}
 `

@@ -28,7 +28,6 @@ export function CoffeeSelected({ coffee }: CoffeeSelectedProps) {
     if (coffee.quantity === 1) {
       removeCoffeesSameTypeFromTheCart(coffee)
     } else {
-      console.log(coffee.quantity)
       updateQuantityOfSpecificCoffeeInCart(coffee, coffee.quantity - 1)
     }
   }

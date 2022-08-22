@@ -20,6 +20,16 @@ export default function () {
         const response = schema.coffees.find(id)
         return { data: response.attrs }
       })
+
+      this.patch('/stock/:id', (schema, request) => {
+        const newAttrs = JSON.parse(request.requestBody)
+        const id = request.params.id
+        const coffee = schema.coffees.find(id)
+
+        const newStock = coffee.stock - newAttrs.quantityToRemove
+
+        return coffee.update({ stock: newStock })
+      })
     },
 
     seeds(server) {
