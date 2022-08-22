@@ -1,4 +1,10 @@
-import { createContext, ReactNode, useContext, useReducer } from 'react'
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useReducer
+} from 'react'
 import { CoffeeInCartType, CoffeeInStockType } from '../types'
 import { useStock } from './useStock'
 
@@ -70,7 +76,15 @@ export function CartProvider({ children }: CartProviderProps) {
           return state
       }
     },
-    []
+    [],
+    () => {
+      const storedData = localStorage.getItem('@coffee-delivery-v1.0.0:cart')
+      if (storedData) {
+        return JSON.parse(storedData)
+      } else {
+        return []
+      }
+    }
   )
 
   function isCoffeeInTheStock(coffeeId: string, desiredQuantity: number) {
@@ -119,6 +133,11 @@ export function CartProvider({ children }: CartProviderProps) {
   function removeCoffeesSameTypeFromTheCart(coffee: CoffeeInCartType) {
     dispatch({ type: 'REMOVE_COFFEE', payload: { coffee } })
   }
+
+  useEffect(() => {
+    const cartJSON = JSON.stringify(cart)
+    localStorage.setItem('@coffee-delivery-v1.0.0:cart', cartJSON)
+  }, [cart])
 
   return (
     <CartContext.Provider
