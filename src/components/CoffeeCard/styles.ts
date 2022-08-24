@@ -5,29 +5,58 @@ export const CoffeeCardContainer = styled.div`
   flex-direction: column;
   align-items: center;
   text-align: center;
-  width: 16rem;
-  padding: 0 1.5rem 1.25rem;
+  max-width: 16rem;
   background: ${props => props.theme['base/card']};
   border-radius: 6px 36px;
 
-  & > img {
-    margin-top: -1.25rem;
-    width: 7.5rem;
-    height: 7.5rem;
-  }
   & > h1 {
     font-family: 'Baloo 2', cursive;
-    font-size: 1.25rem;
     font-weight: 700;
     color: ${props => props.theme['base/subtitle']};
   }
   & > p {
-    font-size: 0.875rem;
     color: ${props => props.theme['base/label']};
   }
 
-  & h1 + p {
-    margin-top: 0.5rem;
+  @media (min-width: 320px) {
+    width: auto;
+    padding: 0 1rem 1rem;
+
+    & > img {
+      margin-top: -1rem;
+      width: 6rem;
+      height: 6rem;
+    }
+    & > h1 {
+      font-size: 1rem;
+    }
+    & > p {
+      font-size: 0.7rem;
+    }
+
+    & h1 + p {
+      margin-top: 0.4rem;
+    }
+  }
+  @media (min-width: 640px) {
+    width: auto;
+    padding: 0 1.5rem 1.25rem;
+
+    & > img {
+      margin-top: -1.25rem;
+      width: 7.5rem;
+      height: 7.5rem;
+    }
+    & > h1 {
+      font-size: 1.25rem;
+    }
+    & > p {
+      font-size: 0.875rem;
+    }
+
+    & h1 + p {
+      margin-top: 0.5rem;
+    }
   }
 `
 
@@ -41,13 +70,30 @@ export const BuyContainer = styled.div`
   & > div:first-child {
     color: ${props => props.theme['base/text']};
 
-    & span:first-child {
-      font-size: 0.875rem;
-    }
     & span:last-child {
       font-family: 'Baloo 2', cursive;
-      font-size: 1.5rem;
       font-weight: 800;
+    }
+  }
+
+  @media (min-width: 320px) {
+    & > div:first-child {
+      & span:first-child {
+        font-size: 0.7rem;
+      }
+      & span:last-child {
+        font-size: 1.2rem;
+      }
+    }
+  }
+  @media (min-width: 640px) {
+    & > div:first-child {
+      & span:first-child {
+        font-size: 0.875rem;
+      }
+      & span:last-child {
+        font-size: 1.5rem;
+      }
     }
   }
 `
@@ -60,12 +106,10 @@ export const Actions = styled.form`
     display: flex;
     align-items: center;
     gap: 0.125rem;
-    padding: 0.5rem;
     border-radius: 6px;
 
     input {
       text-align: center;
-      width: 1.35rem;
       background: transparent;
       border: none;
       color: ${props => props.theme['base/title']};
@@ -109,7 +153,6 @@ export const Actions = styled.form`
 
   button[type='submit'] {
     display: flex;
-    padding: 0.5rem;
     border: none;
     border-radius: 6px;
     color: ${props => props.theme['base/card']};
@@ -130,10 +173,33 @@ export const Actions = styled.form`
       font-size: 1.375rem;
     }
   }
+
+  @media (min-width: 320px) {
+    & > div {
+      padding: 0.4rem;
+      input {
+        width: 1.08rem;
+      }
+    }
+    button[type='submit'] {
+      padding: 0.4rem;
+    }
+  }
+
+  @media (min-width: 640px) {
+    & > div {
+      padding: 0.5rem;
+      input {
+        width: 1.35rem;
+      }
+    }
+    button[type='submit'] {
+      padding: 0.5rem;
+    }
+  }
 `
 
 export const Tags = styled.div`
-  max-width: 208px;
   margin-top: 0.75rem;
   margin-bottom: 1rem;
   padding-bottom: 4px;
@@ -156,7 +222,6 @@ export const Tags = styled.div`
 
   & > span {
     width: fit-content;
-    font-size: 0.625rem;
     font-weight: 700;
     padding: 0.25rem 0.5rem;
     border-radius: 100px;
@@ -167,5 +232,24 @@ export const Tags = styled.div`
 
   & > span + span {
     margin-left: 0.25rem;
+  }
+
+  @media (min-width: 320px) {
+    max-width: 11.40625rem;
+    & > span {
+      font-size: 0.5rem;
+    }
+  }
+  @media (min-width: 480px) {
+    max-width: 11.375rem;
+  }
+  @media (min-width: 640px) {
+    max-width: 13.75rem;
+    & > span {
+      font-size: 0.625rem;
+    }
+  }
+  @media (min-width: 640px) {
+    max-width: 13rem;
   }
 `

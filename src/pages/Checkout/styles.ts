@@ -1,13 +1,8 @@
 import styled from 'styled-components'
 
 export const CheckoutContainer = styled.div`
-  padding: 2.5rem 10rem;
-
   & form {
     display: flex;
-    flex-wrap: wrap;
-    align-items: start;
-    justify-content: center;
     gap: 2rem;
 
     & > div h1 {
@@ -17,13 +12,42 @@ export const CheckoutContainer = styled.div`
       margin-bottom: 1rem;
     }
   }
+
+  @media (min-width: 320px) {
+    padding: 2rem 0rem;
+    & form {
+      flex-direction: column;
+      & > div h1 {
+        margin-left: 1rem;
+      }
+    }
+  }
+  @media (min-width: 640px) {
+    padding: 2rem 2rem;
+    & form {
+      & > div h1 {
+        margin-left: 0;
+      }
+    }
+  }
+  @media (min-width: 1280px) {
+    padding: 2rem 5rem;
+  }
+  @media (min-width: 1440px) {
+    padding: 2.5rem 10rem;
+    & form {
+      flex-direction: initial;
+      flex-wrap: wrap;
+      align-items: start;
+      gap: 0;
+      justify-content: space-between;
+    }
+  }
 `
 
 export const DeliveryAddress = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 2.5rem;
-  width: 40rem;
   background: ${props => props.theme['base/card']};
   border-radius: 6px;
 
@@ -41,9 +65,38 @@ export const DeliveryAddress = styled.div`
       color: ${props => props.theme['base/subtitle']};
     }
     span {
-      font-size: 0.875rem;
       color: ${props => props.theme['base/text']};
     }
+  }
+
+  @media (min-width: 320px) {
+    padding: 1rem;
+    width: 100%;
+
+    header {
+      p {
+        font-size: 0.9rem;
+      }
+      span {
+        font-size: 0.7875rem;
+      }
+    }
+  }
+  @media (min-width: 480px) {
+    header {
+      p {
+        font-size: 1rem;
+      }
+      span {
+        font-size: 0.875rem;
+      }
+    }
+  }
+  @media (min-width: 640px) {
+    padding: 2.5rem;
+  }
+  @media (min-width: 1440px) {
+    width: 40rem;
   }
 `
 
@@ -74,7 +127,6 @@ export const InputsDeliveryAddress = styled.div`
       }
       span {
         position: absolute;
-        font-size: 0.75rem;
         font-style: italic;
         color: ${props => props.theme['base/label']};
 
@@ -85,18 +137,92 @@ export const InputsDeliveryAddress = styled.div`
     }
   }
 
-  & > div:last-of-type {
-    display: flex;
-    gap: 0.75rem;
+  @media (min-width: 320px) {
+    input {
+      font-size: 0.9rem;
+      &::placeholder {
+        font-size: 0.9rem;
+      }
+    }
 
-    input[name='neighborhood'] {
+    input[name='postalCode'] {
+      width: 100%;
+    }
+
+    & > div:first-of-type {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+
+      input[name='number'] {
+        width: 100%;
+      }
+
+      div {
+        span {
+          font-size: 0.675rem;
+        }
+      }
+    }
+
+    & > div:last-of-type {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      gap: 1rem;
+
+      input[name='neighborhood'],
+      input[name='state'],
+      input[name='city'] {
+        width: inherit;
+      }
+    }
+  }
+
+  @media (min-width: 480px) {
+    input {
+      font-size: 1rem;
+      &::placeholder {
+        font-size: 1rem;
+      }
+    }
+
+    & > div:first-of-type {
+      div {
+        span {
+          font-size: 0.75rem;
+        }
+      }
+    }
+  }
+
+  @media (min-width: 1024px) {
+    input[name='postalCode'] {
       width: 12.5rem;
     }
-    input[name='state'] {
-      width: 3.75rem;
+    & > div:first-of-type {
+      display: flex;
+      flex-direction: row;
+      gap: 0.75rem;
+
+      input[name='number'] {
+        width: 12.5rem;
+      }
     }
-    input[name='city'] {
-      flex: 1;
+    & > div:last-of-type {
+      display: flex;
+      flex-direction: row;
+      gap: 0.75rem;
+
+      input[name='neighborhood'] {
+        width: 12.5rem;
+      }
+      input[name='state'] {
+        width: 3.75rem;
+      }
+      input[name='city'] {
+        flex: 1;
+      }
     }
   }
 `
@@ -107,7 +233,6 @@ type PaymentMethodProps = {
 export const PaymentMethod = styled.div<PaymentMethodProps>`
   display: flex;
   flex-direction: column;
-  padding: 2.5rem;
   width: 40rem;
   background: ${props => props.theme['base/card']};
   border-radius: 6px;
@@ -126,7 +251,6 @@ export const PaymentMethod = styled.div<PaymentMethodProps>`
       color: ${props => props.theme['base/subtitle']};
     }
     span {
-      font-size: 0.875rem;
       color: ${props => props.theme['base/text']};
     }
   }
@@ -134,12 +258,40 @@ export const PaymentMethod = styled.div<PaymentMethodProps>`
   ${props =>
     props.hasError &&
     `box-shadow: inset 0 0 0 2px ${props.theme['base/error']};`}
+
+  @media (min-width: 320px) {
+    padding: 1rem;
+    width: 100%;
+
+    header {
+      p {
+        font-size: 0.9rem;
+      }
+      span {
+        font-size: 0.7875rem;
+      }
+    }
+  }
+
+  @media (min-width: 480px) {
+    header {
+      p {
+        font-size: 1rem;
+      }
+      span {
+        font-size: 0.875rem;
+      }
+    }
+  }
+
+  @media (min-width: 640px) {
+    padding: 2.5rem;
+    width: 100%;
+  }
 `
 
 export const InputsPaymentMethod = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0 0.75rem;
 
   input[type='radio'] {
     opacity: 0;
@@ -181,18 +333,40 @@ export const InputsPaymentMethod = styled.div`
     }
     span {
       color: ${props => props.theme['base/text']};
-      font-size: 0.75rem;
       line-height: 1.6;
       text-transform: uppercase;
     }
+  }
+
+  @media (min-width: 320px) {
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 1rem 0;
+
+    label {
+      span {
+        font-size: 0.675rem;
+      }
+    }
+  }
+  @media (min-width: 480px) {
+    label {
+      span {
+        font-size: 0.75rem;
+      }
+    }
+  }
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 1fr;
+
+    gap: 0 0.75rem;
   }
 `
 
 export const CoffeesInCart = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 2.5rem;
-  width: 28rem;
   background: ${props => props.theme['base/card']};
   border-radius: 6px 44px;
 
@@ -228,6 +402,21 @@ export const CoffeesInCart = styled.div`
       opacity: 0.75;
     }
   }
+
+  @media (min-width: 320px) {
+    padding: 1rem;
+    width: 100%;
+
+    & > input {
+      font-size: 0.7875rem;
+    }
+  }
+  @media (min-width: 640px) {
+    padding: 2.5rem;
+  }
+  @media (min-width: 1440px) {
+    width: 28rem;
+  }
 `
 
 export const TotalPrice = styled.div`
@@ -244,14 +433,43 @@ export const TotalPrice = styled.div`
   & > div:nth-child(1),
   & > div:nth-child(2) {
     color: ${props => props.theme['base/text']};
-    span:first-child {
-      font-size: 0.875rem;
-    }
   }
   & > div:nth-child(3) {
     strong {
-      font-size: 1.25rem;
       font-weight: 700;
+    }
+  }
+
+  @media (min-width: 320px) {
+    & > div:nth-child(1),
+    & > div:nth-child(2) {
+      span:first-child {
+        font-size: 0.7875rem;
+      }
+      span:last-child {
+        font-size: 0.9rem;
+      }
+    }
+    & > div:nth-child(3) {
+      strong {
+        font-size: 1.125rem;
+      }
+    }
+  }
+  @media (min-width: 480px) {
+    & > div:nth-child(1),
+    & > div:nth-child(2) {
+      span:first-child {
+        font-size: 0.875rem;
+      }
+      span:last-child {
+        font-size: 1rem;
+      }
+    }
+    & > div:nth-child(3) {
+      strong {
+        font-size: 1.25rem;
+      }
     }
   }
 `

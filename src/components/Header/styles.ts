@@ -7,11 +7,44 @@ export const HeaderContainer = styled.nav`
   z-index: 99999;
   top: 0;
   justify-content: space-between;
-  padding: 2rem 10rem;
   background: ${props => props.theme['base/background']};
 
   & > a {
     font-size: 0;
+    img:last-child {
+      display: none;
+    }
+  }
+
+  @media (min-width: 320px) {
+    padding: 1.5rem 1rem;
+
+    & > a {
+      img:first-child {
+        display: none;
+      }
+      img:last-child {
+        display: initial;
+      }
+    }
+  }
+  @media (min-width: 640px) {
+    padding: 2rem;
+
+    & > a {
+      img:first-child {
+        display: initial;
+      }
+      img:last-child {
+        display: none;
+      }
+    }
+  }
+  @media (min-width: 1280px) {
+    padding: 2rem 5rem;
+  }
+  @media (min-width: 1440px) {
+    padding: 2rem 10rem;
   }
 `
 
@@ -32,6 +65,21 @@ export const LocationAndCartContainer = styled.div`
       flex: none;
       font-size: 1.375rem;
       color: ${props => props.theme['brand/purple']};
+    }
+  }
+
+  @media (min-width: 320px) {
+    & > a {
+      span {
+        font-size: 0.9rem;
+      }
+    }
+  }
+  @media (min-width: 480px) {
+    & > a {
+      span {
+        font-size: 1rem;
+      }
     }
   }
 `
@@ -70,12 +118,31 @@ export const CartContainer = styled.div`
     color: ${props => props.theme['base/white']};
 
     & > span:first-child {
-      font-size: 0.5rem;
       font-weight: 400;
     }
     & > span:last-child {
-      font-size: 0.75rem;
       font-weight: 700;
+    }
+  }
+
+  @media (min-width: 320px) {
+    & > div {
+      & > span:first-child {
+        font-size: 0.45rem;
+      }
+      & > span:last-child {
+        font-size: 0.675rem;
+      }
+    }
+  }
+  @media (min-width: 480px) {
+    & > div {
+      & > span:first-child {
+        font-size: 0.5rem;
+      }
+      & > span:last-child {
+        font-size: 0.75rem;
+      }
     }
   }
 `

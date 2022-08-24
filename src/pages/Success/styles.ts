@@ -1,10 +1,20 @@
 import styled from 'styled-components'
 
 export const SuccessContainer = styled.div`
-  padding: 5rem 10rem;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  column-gap: 6.375rem;
+  @media (min-width: 320px) {
+    padding: 2rem 1rem;
+    display: flex;
+  }
+  @media (min-width: 640px) {
+    padding: 2rem;
+    display: flex;
+  }
+  @media (min-width: 1440px) {
+    padding: 5rem 10rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 6.375rem;
+  }
 `
 
 export const OrderInfoContainer = styled.div`
@@ -15,20 +25,43 @@ export const OrderInfoContainer = styled.div`
   & > div:first-child {
     h1 {
       font-family: 'Baloo 2', cursive;
-      font-size: 2rem;
       font-weight: 800;
       color: ${props => props.theme['brand/yellow-dark']};
     }
     span {
-      font-size: 1.25rem;
       color: ${props => props.theme['base/subtitle']};
     }
+  }
+
+  @media (min-width: 320px) {
+    margin: 0 auto;
+    & > div:first-child {
+      h1 {
+        font-size: 1.6rem;
+      }
+      span {
+        font-size: 1rem;
+      }
+    }
+  }
+  @media (min-width: 640px) {
+    & > div:first-child {
+      h1 {
+        font-size: 2rem;
+      }
+      span {
+        font-size: 1.25rem;
+      }
+    }
+  }
+  @media (min-width: 1440px) {
+    width: 526px;
+    margin: initial;
   }
 `
 
 export const OrderInfo = styled.div`
   position: relative;
-  padding: 2.5rem;
   border-radius: 6px 36px;
   display: flex;
   flex-direction: column;
@@ -59,6 +92,23 @@ export const OrderInfo = styled.div`
   p,
   span {
     color: ${props => props.theme['base/text']};
+  }
+
+  @media (min-width: 320px) {
+    padding: 1rem;
+
+    p,
+    span {
+      font-size: 0.8rem;
+    }
+  }
+  @media (min-width: 640px) {
+    padding: 2.5rem;
+
+    p,
+    span {
+      font-size: 1rem;
+    }
   }
 `
 
@@ -91,5 +141,11 @@ export const Illustration = styled.div`
 
   img {
     width: 100%;
+  }
+  @media (min-width: 320px) {
+    display: none;
+  }
+  @media (min-width: 1440px) {
+    display: initial;
   }
 `
