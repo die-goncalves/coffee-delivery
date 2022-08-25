@@ -26,10 +26,10 @@ export const OrderInfoContainer = styled.div`
     h1 {
       font-family: 'Baloo 2', cursive;
       font-weight: 800;
-      color: ${props => props.theme['brand/yellow-dark']};
+      color: ${props => props.theme.colors['brand/yellow-dark']};
     }
     span {
-      color: ${props => props.theme['base/subtitle']};
+      color: ${props => props.theme.colors['base/subtitle']};
     }
   }
 
@@ -69,14 +69,14 @@ export const OrderInfo = styled.div`
 
   border: 1px solid transparent;
   background: linear-gradient(
-        ${props => props.theme['base/background']},
-        ${props => props.theme['base/background']}
+        ${props => props.theme.colors['base/background']},
+        ${props => props.theme.colors['base/background']}
       )
       padding-box,
     linear-gradient(
         120deg,
-        ${props => props.theme['brand/yellow']},
-        ${props => props.theme['brand/purple']}
+        ${props => props.theme.colors['brand/yellow']},
+        ${props => props.theme.colors['brand/purple']}
       )
       border-box;
 
@@ -91,7 +91,7 @@ export const OrderInfo = styled.div`
   }
   p,
   span {
-    color: ${props => props.theme['base/text']};
+    color: ${props => props.theme.colors['base/text']};
   }
 
   @media (min-width: 320px) {
@@ -123,14 +123,14 @@ type IconStyleProps = {
 export const IconStyle = styled.div<IconStyleProps>`
   display: flex;
   background: ${props =>
-    props.theme[BACKGROUND_COLOR_ICON[props.backgroundColor]]};
+    props.theme.colors[BACKGROUND_COLOR_ICON[props.backgroundColor]]};
   border-radius: 99999px;
   padding: 0.5rem;
 
   svg {
     flex: none;
     font-size: 1rem;
-    color: ${props => props.theme['base/background']};
+    color: ${props => props.theme.colors['base/background']};
   }
 `
 

@@ -6,16 +6,16 @@ export const CoffeeCardContainer = styled.div`
   align-items: center;
   text-align: center;
   max-width: 16rem;
-  background: ${props => props.theme['base/card']};
+  background: ${props => props.theme.colors['base/card']};
   border-radius: 6px 36px;
 
   & > h1 {
     font-family: 'Baloo 2', cursive;
     font-weight: 700;
-    color: ${props => props.theme['base/subtitle']};
+    color: ${props => props.theme.colors['base/subtitle']};
   }
   & > p {
-    color: ${props => props.theme['base/label']};
+    color: ${props => props.theme.colors['base/label']};
   }
 
   @media (min-width: 320px) {
@@ -68,7 +68,7 @@ export const BuyContainer = styled.div`
   margin-top: 2rem;
 
   & > div:first-child {
-    color: ${props => props.theme['base/text']};
+    color: ${props => props.theme.colors['base/text']};
 
     & span:last-child {
       font-family: 'Baloo 2', cursive;
@@ -102,7 +102,7 @@ export const Actions = styled.form`
   display: flex;
   gap: 0.5rem;
   & > div {
-    background: ${props => props.theme['base/button']};
+    background: ${props => props.theme.colors['base/button']};
     display: flex;
     align-items: center;
     gap: 0.125rem;
@@ -112,11 +112,11 @@ export const Actions = styled.form`
       text-align: center;
       background: transparent;
       border: none;
-      color: ${props => props.theme['base/title']};
+      color: ${props => props.theme.colors['base/title']};
       pointer-events: none;
 
       &::placeholder {
-        color: ${props => props.theme['base/label']};
+        color: ${props => props.theme.colors['base/label']};
       }
       &[type='number']::-webkit-inner-spin-button,
       &[type='number']::-webkit-outer-spin-button {
@@ -128,7 +128,7 @@ export const Actions = styled.form`
     button {
       display: flex;
       border: none;
-      color: ${props => props.theme['brand/purple']};
+      color: ${props => props.theme.colors['brand/purple']};
       background: transparent;
 
       cursor: pointer;
@@ -138,7 +138,7 @@ export const Actions = styled.form`
       transition-timing-function: ease-out;
 
       &:hover {
-        color: ${props => props.theme['brand/purple-dark']};
+        color: ${props => props.theme.colors['brand/purple-dark']};
       }
       &:disabled {
         opacity: 0.25;
@@ -155,8 +155,7 @@ export const Actions = styled.form`
     display: flex;
     border: none;
     border-radius: 6px;
-    color: ${props => props.theme['base/card']};
-    background: ${props => props.theme['brand/purple-dark']};
+    color: ${props => props.theme.colors['base/card']};
 
     cursor: pointer;
 
@@ -164,9 +163,20 @@ export const Actions = styled.form`
     transition-property: background;
     transition-timing-function: ease-out;
 
-    &:hover {
-      background: ${props => props.theme['brand/purple']};
-    }
+    ${props =>
+      props.theme.name === 'dark-theme'
+        ? `
+            background: ${props.theme.colors['brand/purple']};
+            &:hover {
+              background: ${props.theme.colors['brand/purple-dark']};
+            }
+          `
+        : `
+            background: ${props.theme.colors['brand/purple-dark']};
+            &:hover {
+              background: ${props.theme.colors['brand/purple']};
+            }
+          `}
 
     svg {
       flex: none;
@@ -208,16 +218,29 @@ export const Tags = styled.div`
   overflow-x: auto;
   &::-webkit-scrollbar {
     height: 4px;
-    background: ${props => props.theme['base/background']};
+    background: ${props => props.theme.colors['base/background']};
   }
   &::-webkit-scrollbar-thumb {
-    background: ${props => props.theme['brand/purple-light']};
-    &:hover {
-      background: ${props => props.theme['brand/purple']};
-    }
-    &:active {
-      background: ${props => props.theme['brand/purple-dark']};
-    }
+    ${props =>
+      props.theme.name === 'dark-theme'
+        ? `
+            background: ${props.theme.colors['brand/purple']};
+            &:hover {
+              background: ${props.theme.colors['brand/purple-dark']};
+            }
+            &:active {
+              background: ${props.theme.colors['brand/purple-light']};
+            }
+          `
+        : `
+            background: ${props.theme.colors['brand/purple-light']};
+            &:hover {
+              background: ${props.theme.colors['brand/purple']};
+            }
+            &:active {
+              background: ${props.theme.colors['brand/purple-dark']};
+            }
+          `}
   }
 
   & > span {
@@ -226,8 +249,17 @@ export const Tags = styled.div`
     padding: 0.25rem 0.5rem;
     border-radius: 100px;
     text-transform: uppercase;
-    color: ${props => props.theme['brand/yellow-dark']};
-    background: ${props => props.theme['brand/yellow-light']};
+
+    ${props =>
+      props.theme.name === 'dark-theme'
+        ? `
+            color: ${props.theme.colors['brand/yellow']};
+            background: ${props.theme.colors['base/background']};
+          `
+        : `
+            color: ${props.theme.colors['brand/yellow-dark']};
+            background: ${props.theme.colors['brand/yellow-light']};
+          `};
   }
 
   & > span + span {

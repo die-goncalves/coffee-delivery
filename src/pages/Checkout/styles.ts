@@ -13,6 +13,10 @@ export const CheckoutContainer = styled.div`
     }
   }
 
+  input {
+    color: ${props => props.theme.colors['base/title']};
+  }
+
   @media (min-width: 320px) {
     padding: 2rem 0rem;
     & form {
@@ -48,7 +52,7 @@ export const CheckoutContainer = styled.div`
 export const DeliveryAddress = styled.div`
   display: flex;
   flex-direction: column;
-  background: ${props => props.theme['base/card']};
+  background: ${props => props.theme.colors['base/card']};
   border-radius: 6px;
 
   header {
@@ -58,14 +62,14 @@ export const DeliveryAddress = styled.div`
     svg {
       flex: none;
       font-size: 1.375rem;
-      color: ${props => props.theme['brand/yellow-dark']};
+      color: ${props => props.theme.colors['brand/yellow-dark']};
       margin-right: 0.5rem;
     }
     p {
-      color: ${props => props.theme['base/subtitle']};
+      color: ${props => props.theme.colors['base/subtitle']};
     }
     span {
-      color: ${props => props.theme['base/text']};
+      color: ${props => props.theme.colors['base/text']};
     }
   }
 
@@ -128,7 +132,7 @@ export const InputsDeliveryAddress = styled.div`
       span {
         position: absolute;
         font-style: italic;
-        color: ${props => props.theme['base/label']};
+        color: ${props => props.theme.colors['base/label']};
 
         top: 50%;
         right: 0;
@@ -234,7 +238,7 @@ export const PaymentMethod = styled.div<PaymentMethodProps>`
   display: flex;
   flex-direction: column;
   width: 40rem;
-  background: ${props => props.theme['base/card']};
+  background: ${props => props.theme.colors['base/card']};
   border-radius: 6px;
 
   header {
@@ -244,20 +248,20 @@ export const PaymentMethod = styled.div<PaymentMethodProps>`
     svg {
       flex: none;
       font-size: 1.375rem;
-      color: ${props => props.theme['brand/purple']};
+      color: ${props => props.theme.colors['brand/purple']};
       margin-right: 0.5rem;
     }
     p {
-      color: ${props => props.theme['base/subtitle']};
+      color: ${props => props.theme.colors['base/subtitle']};
     }
     span {
-      color: ${props => props.theme['base/text']};
+      color: ${props => props.theme.colors['base/text']};
     }
   }
 
   ${props =>
     props.hasError &&
-    `box-shadow: inset 0 0 0 2px ${props.theme['base/error']};`}
+    `box-shadow: inset 0 0 0 2px ${props.theme.colors['base/error']};`}
 
   @media (min-width: 320px) {
     padding: 1rem;
@@ -300,16 +304,19 @@ export const InputsPaymentMethod = styled.div`
   }
 
   input[type='radio']:checked + label {
-    box-shadow: inset 0 0 0 1px ${props => props.theme['brand/purple']};
-    background: ${props => props.theme['brand/purple-light']};
+    box-shadow: inset 0 0 0 1px ${props => props.theme.colors['brand/purple']};
+    background: ${props =>
+      props.theme.name === 'dark-theme'
+        ? props.theme.colors['base/background']
+        : props.theme.colors['brand/purple-light']};
   }
 
-  input[type='radio']:hover + label {
-    background: ${props => props.theme['base/hover']};
+  input[type='radio']:hover:not(:checked) + label {
+    background: ${props => props.theme.colors['base/hover']};
   }
 
   input[type='radio']:focus:not(:checked) + label {
-    background: ${props => props.theme['base/hover']};
+    background: ${props => props.theme.colors['base/hover']};
   }
 
   label {
@@ -318,7 +325,7 @@ export const InputsPaymentMethod = styled.div`
     padding: 1rem;
     gap: 0.75rem;
     border-radius: 6px;
-    background: ${props => props.theme['base/button']};
+    background: ${props => props.theme.colors['base/button']};
 
     cursor: pointer;
 
@@ -329,10 +336,10 @@ export const InputsPaymentMethod = styled.div`
     svg {
       flex: none;
       font-size: 1rem;
-      color: ${props => props.theme['brand/purple']};
+      color: ${props => props.theme.colors['brand/purple']};
     }
     span {
-      color: ${props => props.theme['base/text']};
+      color: ${props => props.theme.colors['base/text']};
       line-height: 1.6;
       text-transform: uppercase;
     }
@@ -367,13 +374,13 @@ export const InputsPaymentMethod = styled.div`
 export const CoffeesInCart = styled.div`
   display: flex;
   flex-direction: column;
-  background: ${props => props.theme['base/card']};
+  background: ${props => props.theme.colors['base/card']};
   border-radius: 6px 44px;
 
   & > div + div {
     padding-top: 1.5rem;
     margin-top: 1.5rem;
-    border-top: 1px solid ${props => props.theme['base/button']};
+    border-top: 1px solid ${props => props.theme.colors['base/button']};
   }
 
   & > input {
@@ -381,8 +388,8 @@ export const CoffeesInCart = styled.div`
     border-radius: 6px;
     border: none;
     text-transform: uppercase;
-    background: ${props => props.theme['brand/yellow']};
-    color: ${props => props.theme['base/white']};
+    background: ${props => props.theme.colors['brand/yellow']};
+    color: ${props => props.theme.colors['base/background']};
 
     font-size: 0.875rem;
     font-weight: 700;
@@ -395,7 +402,7 @@ export const CoffeesInCart = styled.div`
     transition-timing-function: ease-out;
 
     &:hover:not(:disabled) {
-      background: ${props => props.theme['brand/yellow-dark']};
+      background: ${props => props.theme.colors['brand/yellow-dark']};
     }
     &:disabled {
       cursor: wait;
@@ -432,7 +439,7 @@ export const TotalPrice = styled.div`
 
   & > div:nth-child(1),
   & > div:nth-child(2) {
-    color: ${props => props.theme['base/text']};
+    color: ${props => props.theme.colors['base/text']};
   }
   & > div:nth-child(3) {
     strong {
@@ -479,8 +486,8 @@ const Input = styled.input`
     padding: 0.75rem;
     border-radius: 4px;
     border: none;
-    background: ${props => props.theme['base/input']};
-    caret-color: ${props => props.theme['base/label']};
+    background: ${props => props.theme.colors['base/input']};
+    caret-color: ${props => props.theme.colors['base/label']};
 
     outline: none;
 
@@ -490,7 +497,7 @@ const Input = styled.input`
 
     &::placeholder {
       font-size: 0.875rem;
-      color: ${props => props.theme['base/label']};
+      color: ${props => props.theme.colors['base/label']};
     }
   }
 `
@@ -500,11 +507,11 @@ type InputStyleProps = {
 export const InputStyle = styled(Input)<InputStyleProps>`
   ${props =>
     props.hasError
-      ? `box-shadow: inset 0 0 0 2px ${props.theme['base/error']};`
+      ? `box-shadow: inset 0 0 0 2px ${props.theme.colors['base/error']};`
       : `
-        box-shadow: inset 0 0 0 2px ${props.theme['base/button']};
+        box-shadow: inset 0 0 0 2px ${props.theme.colors['base/button']};
         &:focus {
-          box-shadow: inset 0 0 0 2px ${props.theme['brand/yellow-dark']};
+          box-shadow: inset 0 0 0 2px ${props.theme.colors['brand/yellow-dark']};
         }
       `}
 `

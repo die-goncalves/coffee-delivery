@@ -9,18 +9,25 @@ export const MainContainer = styled.div`
   &::-webkit-scrollbar {
     width: 0.8vw;
     height: 0.8vw;
-    background: ${props => props.theme['base/background']};
+    background: ${props => props.theme.colors['base/background']};
   }
   &::-webkit-scrollbar-thumb {
-    background: ${props => props.theme['brand/purple-light']};
+    background: ${props =>
+      props.theme.name === 'dark-theme'
+        ? props.theme.colors['brand/purple']
+        : props.theme.colors['brand/purple-light']};
     &:hover {
-      background: ${props => props.theme['brand/purple']};
+      background: ${props =>
+        props.theme.name === 'dark-theme'
+          ? props.theme.colors['brand/purple-dark']
+          : props.theme.colors['brand/purple']};
     }
     &:active {
-      background: ${props => props.theme['brand/purple-dark']};
+      background: ${props =>
+        props.theme.name === 'dark-theme'
+          ? props.theme.colors['brand/purple-light']
+          : props.theme.colors['brand/purple-dark']};
     }
-  }
-  &::-webkit-scrollbar-thumb {
   }
 `
 

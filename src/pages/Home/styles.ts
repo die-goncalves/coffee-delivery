@@ -93,11 +93,11 @@ export const TitleContainer = styled.div`
     font-family: 'Baloo 2', cursive;
     font-size: 3rem;
     font-weight: 800;
-    color: ${props => props.theme['base/title']};
+    color: ${props => props.theme.colors['base/title']};
   }
   p {
     font-size: 1.25rem;
-    color: ${props => props.theme['base/subtitle']};
+    color: ${props => props.theme.colors['base/subtitle']};
   }
 
   @media (min-width: 320px) {
@@ -146,7 +146,7 @@ export const ItemsContainer = styled.div`
 export const Item = styled.div`
   display: flex;
   align-items: center;
-  color: ${props => props.theme['base/text']};
+  color: ${props => props.theme.colors['base/text']};
   background: transparent;
 
   @media (min-width: 320px) {
@@ -174,13 +174,13 @@ export const IconStyle = styled.div<IconStyleProps>`
   padding: 0.5rem;
   border-radius: 99999px;
   background: ${props =>
-    props.theme[BACKGROUND_COLOR_ICON[props.backgroundColor]]};
+    props.theme.colors[BACKGROUND_COLOR_ICON[props.backgroundColor]]};
   margin-right: 0.75rem;
 
   svg {
     flex: none;
     font-size: 1rem;
-    color: ${props => props.theme['base/white']};
+    color: ${props => props.theme.colors['base/background']};
   }
 `
 
@@ -192,7 +192,7 @@ export const CoffeeListContainer = styled.div`
   & > h1 {
     font-family: 'Baloo 2', cursive;
     font-weight: 800;
-    color: ${props => props.theme['base/subtitle']};
+    color: ${props => props.theme.colors['base/subtitle']};
   }
 
   @media (min-width: 320px) {

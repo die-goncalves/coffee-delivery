@@ -8,6 +8,7 @@ import {
 } from './styles'
 import { useCart } from '../../hooks/useCart'
 import { Link } from 'react-router-dom'
+import { SelectTheme } from '../SelectTheme'
 
 export function Header() {
   const { cart } = useCart()
@@ -23,26 +24,28 @@ export function Header() {
         <img src={Coffee} alt="Entrega de café" />
       </Link>
 
-      <LocationAndCartContainer>
-        <Link to="geolocation">
-          <MapPin weight="fill" />
-          &nbsp;<span>Porto Alegre, RS</span>
-        </Link>
-
-        <CartContainer>
-          <div>
-            {quantityCoffee > 99 && <span>+</span>}
-            {quantityCoffee > 99 ? (
-              <span>99</span>
-            ) : (
-              <span>{quantityCoffee}</span>
-            )}
-          </div>
-          <Link to="/checkout">
-            <ShoppingCart weight="fill" />
+      <div>
+        <SelectTheme />
+        <LocationAndCartContainer>
+          <Link to="/geolocation">
+            <MapPin weight="fill" />
+            &nbsp;<span>Porto Alegre, RS</span>
           </Link>
-        </CartContainer>
-      </LocationAndCartContainer>
+          <Link to="/checkout">
+            <CartContainer>
+              <div>
+                {quantityCoffee > 99 ? (
+                  <span>+ 99</span>
+                ) : (
+                  <span>{quantityCoffee}</span>
+                )}
+              </div>
+
+              <ShoppingCart weight="fill" />
+            </CartContainer>
+          </Link>
+        </LocationAndCartContainer>
+      </div>
     </HeaderContainer>
   )
 }

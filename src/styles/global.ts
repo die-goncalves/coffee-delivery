@@ -8,8 +8,12 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    background: ${props => props.theme['base/background']};
-    color: ${props => props.theme['base/text']};
+    background: ${props => props.theme.colors['base/background']};
+    color: ${props => props.theme.colors['base/text']};
+
+    transition-duration: 0.2s;
+    transition-property: background-color;
+    transition-timing-function: linear;
   }
 
   body, button, textarea, input {

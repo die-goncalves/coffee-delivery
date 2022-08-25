@@ -7,13 +7,21 @@ export const HeaderContainer = styled.nav`
   z-index: 99999;
   top: 0;
   justify-content: space-between;
-  background: ${props => props.theme['base/background']};
+  background: ${props => props.theme.colors['base/background']};
 
+  transition-duration: 0.2s;
+  transition-property: background-color;
+  transition-timing-function: linear;
   & > a {
     font-size: 0;
     img:last-child {
       display: none;
     }
+  }
+
+  & > div {
+    display: flex;
+    gap: 0.75rem;
   }
 
   @media (min-width: 320px) {
@@ -48,35 +56,59 @@ export const HeaderContainer = styled.nav`
   }
 `
 
-export const LocationAndCartContainer = styled.div`
+export const LocationAndCartContainer = styled.nav`
   display: flex;
   gap: 0.75rem;
 
-  & > a {
+  a {
     display: flex;
-    align-items: center;
     padding: 0.5rem;
     border-radius: 6px;
     text-decoration: none;
-    color: ${props => props.theme['brand/purple-dark']};
-    background: ${props => props.theme['brand/purple-light']};
+
+    background: ${props => props.theme.colors['base/card']};
+
+    transition-duration: 0.2s;
+    transition-property: background-color;
+    transition-timing-function: ease-out;
+
+    &:hover {
+      background: ${props => props.theme.colors['base/button']};
+    }
+  }
+
+  a:first-child {
+    align-items: center;
+    color: ${props => props.theme.colors['brand/purple']};
 
     svg {
       flex: none;
       font-size: 1.375rem;
-      color: ${props => props.theme['brand/purple']};
+      color: ${props => props.theme.colors['brand/purple']};
+    }
+  }
+
+  a:last-child {
+    position: relative;
+    svg {
+      flex: none;
+      font-size: 1.375rem;
+      color: ${props =>
+        props.theme.name === 'dark-theme'
+          ? props.theme.colors['brand/purple']
+          : props.theme.colors['brand/yellow-dark']};
     }
   }
 
   @media (min-width: 320px) {
-    & > a {
+    a {
       span {
         font-size: 0.9rem;
       }
     }
   }
   @media (min-width: 480px) {
-    & > a {
+    a {
       span {
         font-size: 1rem;
       }
@@ -86,22 +118,6 @@ export const LocationAndCartContainer = styled.div`
 
 export const CartContainer = styled.div`
   display: flex;
-  position: relative;
-  margin: auto 0;
-
-  & > a {
-    padding: 0.5rem;
-    border-radius: 6px;
-    text-decoration: none;
-    font-size: 0;
-    background: ${props => props.theme['brand/yellow-light']};
-
-    svg {
-      flex: none;
-      font-size: 1.375rem;
-      color: ${props => props.theme['brand/yellow-dark']};
-    }
-  }
 
   & > div {
     display: flex;
@@ -114,34 +130,28 @@ export const CartContainer = styled.div`
     top: 0;
     right: 0;
     transform: translate(50%, -50%);
-    background: ${props => props.theme['brand/yellow-dark']};
-    color: ${props => props.theme['base/white']};
+    background: ${props =>
+      props.theme.name === 'dark-theme'
+        ? props.theme.colors['brand/purple']
+        : props.theme.colors['brand/yellow-dark']};
+    color: ${props => props.theme.colors['base/background']};
 
-    & > span:first-child {
-      font-weight: 400;
-    }
-    & > span:last-child {
+    span {
       font-weight: 700;
     }
   }
 
   @media (min-width: 320px) {
     & > div {
-      & > span:first-child {
-        font-size: 0.45rem;
-      }
-      & > span:last-child {
+      span {
         font-size: 0.675rem;
       }
     }
   }
   @media (min-width: 480px) {
     & > div {
-      & > span:first-child {
-        font-size: 0.5rem;
-      }
-      & > span:last-child {
-        font-size: 0.75rem;
+      span {
+        font-size: 0.7rem;
       }
     }
   }

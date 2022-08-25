@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const CoffeeSelectedContainer = styled.div`
   display: flex;
   padding: 0.5rem 0.25rem;
-  background: ${props => props.theme['base/card']};
+  background: ${props => props.theme.colors['base/card']};
 
   & > div {
     display: flex;
@@ -12,7 +12,7 @@ export const CoffeeSelectedContainer = styled.div`
   }
 
   & > span {
-    color: ${props => props.theme['base/text']};
+    color: ${props => props.theme.colors['base/text']};
     font-weight: 700;
   }
 
@@ -47,7 +47,7 @@ export const OrderInfo = styled.div`
   flex-direction: column;
   gap: 0.5rem;
   p {
-    color: ${props => props.theme['base/subtitle']};
+    color: ${props => props.theme.colors['base/subtitle']};
   }
 
   div {
@@ -71,8 +71,8 @@ export const OrderInfo = styled.div`
 export const RemoveCoffeeFromCartButton = styled.button`
   display: flex;
   align-items: center;
-  color: ${props => props.theme['base/text']};
-  background: ${props => props.theme['base/button']};
+  color: ${props => props.theme.colors['base/text']};
+  background: ${props => props.theme.colors['base/button']};
   border: none;
   text-transform: uppercase;
   line-height: 1.6;
@@ -85,7 +85,7 @@ export const RemoveCoffeeFromCartButton = styled.button`
 
   svg {
     flex: none;
-    color: ${props => props.theme['brand/purple']};
+    color: ${props => props.theme.colors['brand/purple']};
 
     transition-duration: 0.2s;
     transition-property: color, background-color;
@@ -93,10 +93,10 @@ export const RemoveCoffeeFromCartButton = styled.button`
   }
 
   &:hover {
-    color: ${props => props.theme['base/subtitle']};
-    background: ${props => props.theme['base/hover']};
+    color: ${props => props.theme.colors['base/subtitle']};
+    background: ${props => props.theme.colors['base/hover']};
     svg {
-      color: ${props => props.theme['brand/purple-dark']};
+      color: ${props => props.theme.colors['brand/purple-dark']};
     }
   }
 
@@ -127,7 +127,7 @@ export const RemoveCoffeeFromCartButton = styled.button`
 `
 
 export const ChangeAmountCoffeeInCartContainer = styled.div`
-  background: ${props => props.theme['base/button']};
+  background: ${props => props.theme.colors['base/button']};
   display: flex;
   align-items: center;
   gap: 0.125rem;
@@ -136,11 +136,11 @@ export const ChangeAmountCoffeeInCartContainer = styled.div`
     text-align: center;
     background: transparent;
     border: none;
-    color: ${props => props.theme['base/title']};
+    color: ${props => props.theme.colors['base/title']};
     pointer-events: none;
 
     &::placeholder {
-      color: ${props => props.theme['base/label']};
+      color: ${props => props.theme.colors['base/label']};
     }
     &[type='number']::-webkit-inner-spin-button,
     &[type='number']::-webkit-outer-spin-button {
@@ -152,7 +152,7 @@ export const ChangeAmountCoffeeInCartContainer = styled.div`
   button {
     display: flex;
     border: none;
-    color: ${props => props.theme['brand/purple']};
+    color: ${props => props.theme.colors['brand/purple']};
     background: transparent;
 
     cursor: pointer;
@@ -162,7 +162,7 @@ export const ChangeAmountCoffeeInCartContainer = styled.div`
     transition-timing-function: ease-out;
 
     &:hover {
-      color: ${props => props.theme['brand/purple-dark']};
+      color: ${props => props.theme.colors['brand/purple-dark']};
     }
 
     &:disabled {
