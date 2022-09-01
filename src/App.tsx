@@ -7,6 +7,7 @@ import {
   ThemePreferenceContext,
   ThemePreferenceContextProvider
 } from './hooks/useThemes'
+import { DeliveryProvider } from './hooks/useDelivery'
 
 import { GlobalStyle } from './styles/global'
 
@@ -19,7 +20,9 @@ function App() {
             <StockProvider>
               <CartProvider>
                 <BrowserRouter>
-                  <Router />
+                  <DeliveryProvider>
+                    <Router />
+                  </DeliveryProvider>
                 </BrowserRouter>
               </CartProvider>
             </StockProvider>
