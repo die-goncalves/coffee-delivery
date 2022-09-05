@@ -16,7 +16,7 @@ import {
 import { useStock } from '../../hooks/useStock'
 
 export function Home() {
-  const { stock } = useStock()
+  const { coffees } = useStock()
 
   return (
     <HomeContainer>
@@ -66,8 +66,10 @@ export function Home() {
       <CoffeeListContainer>
         <h1>Nossos cafés</h1>
         <CoffeeList>
-          {!!stock.length &&
-            stock.map(coffee => <CoffeeCard key={coffee.id} coffee={coffee} />)}
+          {!!coffees.length &&
+            coffees.map(coffee => (
+              <CoffeeCard key={coffee.id} coffee={coffee} />
+            ))}
         </CoffeeList>
       </CoffeeListContainer>
     </HomeContainer>
