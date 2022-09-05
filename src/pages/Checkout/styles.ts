@@ -36,15 +36,23 @@ export const CheckoutContainer = styled.div`
   }
   @media (min-width: 1280px) {
     padding: 2rem 5rem;
+    & form {
+      & > div:first-child {
+        flex: 1;
+      }
+      flex-direction: initial;
+      align-items: start;
+      gap: 2.125rem;
+    }
   }
   @media (min-width: 1440px) {
     padding: 2.5rem 10rem;
     & form {
-      flex-direction: initial;
-      flex-wrap: wrap;
-      align-items: start;
-      gap: 0;
-      justify-content: space-between;
+      /* flex-direction: initial; */
+      /* flex-wrap: wrap; */
+      /* align-items: start; */
+      gap: 1.3125rem;
+      /* justify-content: space-between; */
     }
   }
 `
@@ -65,11 +73,50 @@ export const DeliveryAddress = styled.div`
       color: ${props => props.theme.colors['brand/yellow-dark']};
       margin-right: 0.5rem;
     }
-    p {
-      color: ${props => props.theme.colors['base/subtitle']};
-    }
-    span {
-      color: ${props => props.theme.colors['base/text']};
+
+    & > div {
+      flex: 1;
+
+      span {
+        color: ${props => props.theme.colors['base/text']};
+      }
+
+      & > div {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        p {
+          color: ${props => props.theme.colors['base/subtitle']};
+        }
+        button {
+          display: flex;
+          font-size: 1rem;
+          width: max-content;
+          border: none;
+          color: ${props => props.theme.colors['brand/yellow']};
+          background: ${props => props.theme.colors['base/card']};
+          cursor: pointer;
+          outline: none;
+
+          font-family: 'Baloo 2', cursive;
+          font-weight: 700;
+
+          transition-duration: 0.2s;
+          transition-property: color;
+          transition-timing-function: ease-out;
+
+          &:hover {
+            color: ${props => props.theme.colors['brand/yellow-dark']};
+          }
+
+          @media (min-width: 320px) {
+            font-size: 0.9rem;
+          }
+          @media (min-width: 480px) {
+            font-size: 1rem;
+          }
+        }
+      }
     }
   }
 
@@ -100,7 +147,7 @@ export const DeliveryAddress = styled.div`
     padding: 2.5rem;
   }
   @media (min-width: 1440px) {
-    width: 40rem;
+    /* width: 40rem; */
   }
 `
 
@@ -113,14 +160,18 @@ export const InputsDeliveryAddress = styled.div`
     width: 12.5rem;
   }
 
-  & > div:first-of-type {
+  // Grupo de inputs: número e complemento
+  & > div:nth-child(3) {
     display: flex;
+    align-items: start;
     gap: 0.75rem;
 
     input[name='number'] {
       width: 12.5rem;
     }
-    div {
+
+    // Input de complemento
+    & > div:last-child {
       display: flex;
       position: relative;
       flex: 1;
@@ -129,6 +180,7 @@ export const InputsDeliveryAddress = styled.div`
         flex: 1;
         padding-right: 62px;
       }
+
       span {
         position: absolute;
         font-style: italic;
@@ -153,18 +205,24 @@ export const InputsDeliveryAddress = styled.div`
       width: 100%;
     }
 
-    & > div:first-of-type {
+    & > div:nth-child(3) {
       display: flex;
       flex-direction: column;
       gap: 1rem;
 
-      input[name='number'] {
+      & > div {
         width: 100%;
-      }
 
-      div {
-        span {
-          font-size: 0.675rem;
+        &:first-child {
+          input[name='number'] {
+            width: 100%;
+          }
+        }
+
+        &:last-child {
+          span {
+            font-size: 0.675rem;
+          }
         }
       }
     }
@@ -191,7 +249,7 @@ export const InputsDeliveryAddress = styled.div`
       }
     }
 
-    & > div:first-of-type {
+    & > div:nth-child(3) {
       div {
         span {
           font-size: 0.75rem;
@@ -204,15 +262,26 @@ export const InputsDeliveryAddress = styled.div`
     input[name='postalCode'] {
       width: 12.5rem;
     }
-    & > div:first-of-type {
+
+    & > div:nth-child(3) {
       display: flex;
       flex-direction: row;
       gap: 0.75rem;
 
-      input[name='number'] {
-        width: 12.5rem;
+      & > div {
+        &:first-child {
+          width: 12.5rem;
+          input[name='number'] {
+            width: 100%;
+          }
+        }
+        &:last-child {
+          flex: 1;
+        }
       }
     }
+
+    // Grupo de inputs: bairro, estado e cidade
     & > div:last-of-type {
       display: flex;
       flex-direction: row;
@@ -221,11 +290,11 @@ export const InputsDeliveryAddress = styled.div`
       input[name='neighborhood'] {
         width: 12.5rem;
       }
-      input[name='state'] {
-        width: 3.75rem;
-      }
-      input[name='city'] {
+      & > div:nth-child(2) {
         flex: 1;
+      }
+      input[name='state'] {
+        width: 7.125rem;
       }
     }
   }
@@ -421,6 +490,9 @@ export const CoffeesInCart = styled.div`
   @media (min-width: 640px) {
     padding: 2.5rem;
   }
+  @media (min-width: 1280px) {
+    width: 28rem;
+  }
   @media (min-width: 1440px) {
     width: 28rem;
   }
@@ -481,6 +553,11 @@ export const TotalPrice = styled.div`
   }
 `
 
+export const InputAndErrors = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
 const Input = styled.input`
     font-size: 0.875rem;
     padding: 0.75rem;
@@ -514,4 +591,17 @@ export const InputStyle = styled(Input)<InputStyleProps>`
           box-shadow: inset 0 0 0 2px ${props.theme.colors['brand/yellow-dark']};
         }
       `}
+`
+
+export const ErrorStyle = styled.span`
+  margin-top: 0.25rem;
+  color: ${props => props.theme.colors['base/error']};
+  font-size: 0.8rem;
+
+  @media (min-width: 320px) {
+    font-size: 0.675rem;
+  }
+  @media (min-width: 480px) {
+    font-size: 0.75rem;
+  }
 `

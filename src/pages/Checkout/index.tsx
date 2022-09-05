@@ -7,7 +7,6 @@ import { formatPrice } from '../../util/format'
 import { CoffeeInCartType } from '../../types'
 import { CoffeeSelected } from '../../components/CoffeeSelected'
 import { useCart } from '../../hooks/useCart'
-import { useStock } from '../../hooks/useStock'
 import {
   Bank,
   CreditCard,
@@ -23,8 +22,12 @@ import {
   PaymentMethod,
   CoffeesInCart,
   TotalPrice,
-  InputStyle
+  InputStyle,
+  InputAndErrors,
+  ErrorStyle
 } from './styles'
+import { useDelivery } from '../../hooks/useDelivery'
+import { api } from '../../lib/api'
 
 type FormInputs = {
   postalCode: string
@@ -36,8 +39,12 @@ type FormInputs = {
   state: string
   paymentMethod: string
 }
+
 type Order = {
-  client: Omit<FormInputs, 'paymentMethod'>
+  point: { geographicCoordinates?: { lat: number; lng: number } } & Omit<
+    FormInputs,
+    'paymentMethod'
+  >
   cart: CoffeeInCartType[]
   payment: { price: string } & Pick<FormInputs, 'paymentMethod'>
 }
@@ -56,7 +63,10 @@ const schema = zod.object({
   complement: zod.string().optional(),
   neighborhood: zod.string().min(1, { message: 'Campo obrigatório' }),
   city: zod.string().min(1, { message: 'Campo obrigatório' }),
-  state: zod.string().min(1, { message: 'Campo obrigatório' }),
+  state: zod
+    .string()
+    .min(1, { message: 'Campo obrigatório' })
+    .length(2, { message: 'Deve ter duas letras' }),
   paymentMethod: zod.nativeEnum(
     { credit: 'credit', debit: 'debit', money: 'money' },
     {
@@ -70,13 +80,15 @@ const schema = zod.object({
 })
 
 export function Checkout() {
+  const { deliveryState } = useDelivery()
   const navigate = useNavigate()
-  const { updateCoffeesInStock, updateStock } = useStock()
   const { cart, dispatch } = useCart()
   const {
     register,
     handleSubmit,
     reset,
+    setValue,
+    clearErrors,
     formState,
     formState: { errors, isSubmitting, isSubmitSuccessful }
   } = useForm<FormInputs>({
@@ -96,12 +108,14 @@ export function Checkout() {
   const totalPriceItens = cart.reduce((acc, currentValue) => {
     return acc + currentValue.quantity * currentValue.price
   }, 0)
+
   const totalPrice = totalPriceItens + 3.7
 
   const totalPriceItensFormatted = formatPrice({
     options: { style: 'currency', currency: 'BRL' },
     number: totalPriceItens
   })
+
   const totalPriceFormatted = formatPrice({
     options: { style: 'currency', currency: 'BRL' },
     number: totalPrice
@@ -109,24 +123,46 @@ export function Checkout() {
 
   const onSubmit = async (data: FormInputs) => {
     const order: Order = {
-      client: {
+      point: {
         city: data.city,
         complement: data.complement,
         neighborhood: data.neighborhood,
         number: data.number,
         postalCode: data.postalCode,
         state: data.state,
-        street: data.street
+        street: data.street,
+        geographicCoordinates:
+          deliveryState.currentDelivery?.geographicCoordinates
       },
       cart,
       payment: { price: totalPriceFormatted, paymentMethod: data.paymentMethod }
     }
 
-    await updateCoffeesInStock(cart)
-    updateStock(cart)
-    dispatch({ type: 'RESET_CART', payload: { initialState: [] } })
+    await api.post('order', order)
 
+    dispatch({ type: 'RESET_CART', payload: { initialState: [] } })
     navigate('/success')
+  }
+
+  function handlePutAddress() {
+    if (deliveryState.currentDelivery) {
+      if (deliveryState.currentDelivery.city) {
+        clearErrors('city')
+        setValue('city', deliveryState.currentDelivery.city)
+      }
+      if (deliveryState.currentDelivery.postalCode) {
+        clearErrors('postalCode')
+        setValue('postalCode', deliveryState.currentDelivery.postalCode)
+      }
+      if (deliveryState.currentDelivery.state) {
+        clearErrors('state')
+        setValue('state', deliveryState.currentDelivery.state)
+      }
+      if (deliveryState.currentDelivery.street) {
+        clearErrors('street')
+        setValue('street', deliveryState.currentDelivery.street)
+      }
+    }
   }
 
   useEffect(() => {
@@ -134,6 +170,10 @@ export function Checkout() {
       reset()
     }
   }, [formState, reset])
+
+  useEffect(() => {
+    handlePutAddress()
+  }, [])
 
   return (
     <CheckoutContainer>
@@ -145,35 +185,65 @@ export function Checkout() {
               <header>
                 <MapPinLine />
                 <div>
-                  <p>Endereço de Entrega</p>
+                  <div>
+                    <p>Endereço de Entrega</p>
+                    <button type="button" onClick={handlePutAddress}>
+                      Dados do mapa
+                    </button>
+                  </div>
+
                   <span>Informe o endereço onde deseja receber seu pedido</span>
                 </div>
               </header>
 
               <InputsDeliveryAddress>
-                <InputStyle
-                  type="text"
-                  placeholder="CEP"
-                  hasError={!!errors.postalCode}
-                  {...register('postalCode')}
-                />
-                <InputStyle
-                  type="text"
-                  placeholder="Rua"
-                  hasError={!!errors.street}
-                  {...register('street')}
-                />
-                <div>
+                <InputAndErrors>
                   <InputStyle
-                    type="number"
-                    placeholder="Número"
-                    min={0}
-                    hasError={!!errors.number}
-                    {...register('number', {
-                      setValueAs: v => parseInt(v),
-                      valueAsNumber: true
-                    })}
+                    type="text"
+                    placeholder="CEP"
+                    hasError={!!errors.postalCode}
+                    {...register('postalCode')}
                   />
+                  {errors.postalCode && (
+                    <ErrorStyle role="alert">
+                      {errors.postalCode?.message}
+                    </ErrorStyle>
+                  )}
+                </InputAndErrors>
+
+                <InputAndErrors>
+                  <InputStyle
+                    type="text"
+                    placeholder="Rua"
+                    hasError={!!errors.street}
+                    {...register('street')}
+                  />
+                  {errors.street && (
+                    <ErrorStyle role="alert">
+                      {errors.street?.message}
+                    </ErrorStyle>
+                  )}
+                </InputAndErrors>
+
+                <div>
+                  <InputAndErrors>
+                    <InputStyle
+                      type="number"
+                      placeholder="Número"
+                      min={0}
+                      hasError={!!errors.number}
+                      {...register('number', {
+                        setValueAs: v => parseInt(v),
+                        valueAsNumber: true
+                      })}
+                    />
+                    {errors.number && (
+                      <ErrorStyle role="alert">
+                        {errors.number?.message}
+                      </ErrorStyle>
+                    )}
+                  </InputAndErrors>
+
                   <div>
                     <InputStyle
                       type="text"
@@ -184,25 +254,48 @@ export function Checkout() {
                     <span>Opcional</span>
                   </div>
                 </div>
+
                 <div>
-                  <InputStyle
-                    type="text"
-                    placeholder="Bairro"
-                    hasError={!!errors.neighborhood}
-                    {...register('neighborhood', {})}
-                  />
-                  <InputStyle
-                    type="text"
-                    placeholder="Cidade"
-                    hasError={!!errors.city}
-                    {...register('city', {})}
-                  />
-                  <InputStyle
-                    type="text"
-                    placeholder="UF"
-                    hasError={!!errors.state}
-                    {...register('state', {})}
-                  />
+                  <InputAndErrors>
+                    <InputStyle
+                      type="text"
+                      placeholder="Bairro"
+                      hasError={!!errors.neighborhood}
+                      {...register('neighborhood', {})}
+                    />
+                    {errors.neighborhood && (
+                      <ErrorStyle role="alert">
+                        {errors.neighborhood?.message}
+                      </ErrorStyle>
+                    )}
+                  </InputAndErrors>
+                  <InputAndErrors>
+                    <InputStyle
+                      type="text"
+                      placeholder="Cidade"
+                      hasError={!!errors.city}
+                      {...register('city', {})}
+                    />
+                    {errors.city && (
+                      <ErrorStyle role="alert">
+                        {errors.city?.message}
+                      </ErrorStyle>
+                    )}
+                  </InputAndErrors>
+                  <InputAndErrors>
+                    <InputStyle
+                      type="text"
+                      placeholder="UF"
+                      hasError={!!errors.state}
+                      maxLength={2}
+                      {...register('state', {})}
+                    />
+                    {errors.state && (
+                      <ErrorStyle role="alert">
+                        {errors.state?.message}
+                      </ErrorStyle>
+                    )}
+                  </InputAndErrors>
                 </div>
               </InputsDeliveryAddress>
             </DeliveryAddress>
