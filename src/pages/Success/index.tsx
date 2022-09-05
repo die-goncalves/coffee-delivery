@@ -1,5 +1,6 @@
 import { CurrencyDollar, MapPin, Timer } from 'phosphor-react'
 import Motoboy from '../../assets/motoboy.png'
+import { useLocation } from 'react-router-dom'
 import {
   IconStyle,
   Illustration,
@@ -8,7 +9,27 @@ import {
   OrderInfoContainer
 } from './styles'
 
+type CustomizedState = {
+  point: {
+    number: number
+    street: string
+    city: string
+    state: string
+  }
+  duration: number
+  payment: { price: string; paymentMethod: string }
+}
+
 export function Success() {
+  const location = useLocation()
+  const state = location.state as CustomizedState
+
+  const paymentMethod = () => {
+    if (state.payment.paymentMethod === 'money') return 'Dinheiro'
+    if (state.payment.paymentMethod === 'credit') return 'Cartão de crédito'
+    if (state.payment.paymentMethod === 'debit') return 'Cartão de débito'
+  }
+
   return (
     <SuccessContainer>
       <OrderInfoContainer>
@@ -25,9 +46,14 @@ export function Success() {
 
             <div>
               <p>
-                Entrega em Rua <span>João Daniel Martinelli, 102</span>
+                Entrega em{' '}
+                <span>
+                  {state.point.street}, {state.point.number}
+                </span>
               </p>
-              <span>Farrapos - Porto Alegre, RS</span>
+              <span>
+                {state.point.city}, {state.point.state}
+              </span>
             </div>
           </div>
           <div>
@@ -36,7 +62,9 @@ export function Success() {
             </IconStyle>
             <div>
               <p>Previsão de entrega</p>
-              <span>20 min - 30 min</span>
+              <span>
+                {state.duration + 10} min - {state.duration + 20} min
+              </span>
             </div>
           </div>
           <div>
@@ -45,7 +73,9 @@ export function Success() {
             </IconStyle>
             <div>
               <p>Pagamento na entrega</p>
-              <span>Cartão de Crédito</span>
+              <span>
+                {state.payment.price}, {paymentMethod()}
+              </span>
             </div>
           </div>
         </OrderInfo>

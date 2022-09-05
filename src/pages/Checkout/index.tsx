@@ -143,7 +143,13 @@ export function Checkout() {
     await api.post('order', order)
     changePurchaseStatus()
     dispatch({ type: 'RESET_CART', payload: { initialState: [] } })
-    navigate('/success')
+    navigate('/success', {
+      state: {
+        point: order.point,
+        duration: deliveryState.currentDelivery?.duration,
+        payment: order.payment
+      }
+    })
   }
 
   function handlePutAddress() {
