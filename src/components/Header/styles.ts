@@ -12,11 +12,10 @@ export const HeaderContainer = styled.nav`
   transition-duration: 0.2s;
   transition-property: background-color;
   transition-timing-function: linear;
+
   & > a {
+    display: flex;
     font-size: 0;
-    img:last-child {
-      display: none;
-    }
   }
 
   & > div {
@@ -28,10 +27,10 @@ export const HeaderContainer = styled.nav`
     padding: 1.5rem 1rem;
 
     & > a {
-      img:first-child {
+      svg:first-child {
         display: none;
       }
-      img:last-child {
+      svg:last-child {
         display: initial;
       }
     }
@@ -40,10 +39,10 @@ export const HeaderContainer = styled.nav`
     padding: 2rem;
 
     & > a {
-      img:first-child {
+      svg:first-child {
         display: initial;
       }
-      img:last-child {
+      svg:last-child {
         display: none;
       }
     }
@@ -86,6 +85,13 @@ export const LocationAndCartContainer = styled.nav`
       font-size: 1.375rem;
       color: ${props => props.theme.colors['brand/purple']};
     }
+
+    span {
+      max-width: 4rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
   }
 
   a:last-child {
@@ -111,6 +117,32 @@ export const LocationAndCartContainer = styled.nav`
     a {
       span {
         font-size: 1rem;
+      }
+    }
+    a:first-child {
+      span {
+        max-width: 8rem;
+      }
+    }
+  }
+  @media (min-width: 640px) {
+    a:first-child {
+      span {
+        max-width: 12rem;
+      }
+    }
+  }
+  @media (min-width: 768px) {
+    a:first-child {
+      span {
+        max-width: 16rem;
+      }
+    }
+  }
+  @media (min-width: 1024px) {
+    a:first-child {
+      span {
+        max-width: 20rem;
       }
     }
   }
