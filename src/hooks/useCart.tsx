@@ -5,7 +5,7 @@ import {
   useEffect,
   useReducer
 } from 'react'
-import { CoffeeInCartType, CoffeeInStockType } from '../types'
+import { CoffeeInCartType, CoffeeType } from '../types'
 import { useStock } from './useStock'
 
 enum ActionTypes {
@@ -18,7 +18,7 @@ enum ActionTypes {
 type CartContextType = {
   cart: CoffeeInCartType[]
   dispatch: React.Dispatch<any>
-  putCoffeeInCart: (coffee: CoffeeInStockType, desiredQuantity: number) => void
+  putCoffeeInCart: (coffee: CoffeeType, desiredQuantity: number) => void
   updateQuantityOfSpecificCoffeeInCart: (
     coffee: CoffeeInCartType,
     desiredQuantity: number
@@ -32,7 +32,7 @@ type CartProviderProps = {
 }
 
 export function CartProvider({ children }: CartProviderProps) {
-  const { stock } = useStock()
+  const { coffees } = useStock()
   const [cart, dispatch] = useReducer(
     (state: CoffeeInCartType[], action: any) => {
       switch (action.type) {
@@ -49,10 +49,11 @@ export function CartProvider({ children }: CartProviderProps) {
               return item
             })
           } else {
+            const { stock, ...newCoffee } = action.payload.coffee
             return [
               ...state,
               {
-                ...action.payload.coffee,
+                ...newCoffee,
                 quantity: action.payload.desiredQuantity
               }
             ]
@@ -88,13 +89,13 @@ export function CartProvider({ children }: CartProviderProps) {
   )
 
   function isCoffeeInTheStock(coffeeId: string, desiredQuantity: number) {
-    const coffee = stock.find(item => item.id === coffeeId)
+    const coffeeInTheStock = coffees.find(item => item.id === coffeeId)
 
-    if (coffee) {
-      if (coffee.stock < 1) {
+    if (coffeeInTheStock && coffeeInTheStock.stock) {
+      if (coffeeInTheStock.stock.quantity < 1) {
         console.error('Café não disponível')
         return false
-      } else if (desiredQuantity > coffee.stock) {
+      } else if (desiredQuantity > coffeeInTheStock.stock.quantity) {
         console.error('Quantidade solicitada fora de estoque')
         return false
       }
@@ -105,7 +106,7 @@ export function CartProvider({ children }: CartProviderProps) {
     }
   }
 
-  function putCoffeeInCart(coffee: CoffeeInStockType, desiredQuantity: number) {
+  function putCoffeeInCart(coffee: CoffeeType, desiredQuantity: number) {
     const hasInStock = isCoffeeInTheStock(coffee.id, desiredQuantity)
 
     if (hasInStock) {

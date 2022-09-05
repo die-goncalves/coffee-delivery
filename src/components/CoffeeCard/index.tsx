@@ -2,13 +2,12 @@ import { Minus, Plus, ShoppingCartSimple } from 'phosphor-react'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { useCart } from '../../hooks/useCart'
-import { useStock } from '../../hooks/useStock'
-import { CoffeeInStockType } from '../../types'
+import { CoffeeType } from '../../types'
 import { formatPrice } from '../../util/format'
 import { Actions, BuyContainer, CoffeeCardContainer, Tags } from './styles'
 
 type CoffeeCardProps = {
-  coffee: CoffeeInStockType
+  coffee: CoffeeType
 }
 
 type FormInputs = {
@@ -25,7 +24,6 @@ export function CoffeeCard({ coffee }: CoffeeCardProps) {
     formState,
     formState: { isSubmitSuccessful }
   } = useForm<FormInputs>({ defaultValues: { desiredQuantity: 0 } })
-  const { stockSpecificCoffee } = useStock()
   const { putCoffeeInCart } = useCart()
 
   const priceFormatted = formatPrice({
@@ -38,7 +36,7 @@ export function CoffeeCard({ coffee }: CoffeeCardProps) {
   }
 
   const watchDesiredQuantity = watch('desiredQuantity')
-  const stockQuantityOfThisCoffee = stockSpecificCoffee(coffee.id) ?? 0
+  const stockQuantityOfThisCoffee = coffee.stock?.quantity ?? 0
   const disableIncreaseButton =
     watchDesiredQuantity === stockQuantityOfThisCoffee
 
@@ -52,8 +50,8 @@ export function CoffeeCard({ coffee }: CoffeeCardProps) {
     <CoffeeCardContainer>
       <img src={coffee.image} alt={coffee.name} />
       <Tags>
-        {coffee.tags.map(tag => (
-          <span key={tag}>{tag}</span>
+        {coffee.coffeesOnTags.map(item => (
+          <span key={item.tag.id}>{item.tag.name}</span>
         ))}
       </Tags>
 
