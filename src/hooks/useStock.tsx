@@ -11,6 +11,7 @@ import { CoffeeData, CoffeeType } from '../types'
 type StockContextType = {
   coffees: CoffeeType[]
   stockSpecificCoffee: (coffeeId: string) => number | undefined
+  changePurchaseStatus: () => void
 }
 const StockContext = createContext({} as StockContextType)
 
@@ -18,6 +19,7 @@ type StockProviderProps = {
   children: ReactNode
 }
 export function StockProvider({ children }: StockProviderProps) {
+  const [wasPurchaseProcessed, setWasPurchaseProcessed] = useState<boolean>()
   const [coffees, setCoffees] = useState<CoffeeType[]>([])
 
   useEffect(() => {
@@ -34,19 +36,25 @@ export function StockProvider({ children }: StockProviderProps) {
         stock: item.stock
       }))
       setCoffees(formattedData)
+      setWasPurchaseProcessed(false)
     }
-    loadCoffees()
-  }, [])
+    if (wasPurchaseProcessed !== false) loadCoffees()
+  }, [wasPurchaseProcessed])
 
   function stockSpecificCoffee(coffeeId: string) {
     return coffees.find(item => item.id === coffeeId)?.stock?.quantity
+  }
+
+  function changePurchaseStatus() {
+    setWasPurchaseProcessed(prevState => !prevState)
   }
 
   return (
     <StockContext.Provider
       value={{
         coffees,
-        stockSpecificCoffee
+        stockSpecificCoffee,
+        changePurchaseStatus
       }}
     >
       {children}
