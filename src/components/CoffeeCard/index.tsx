@@ -39,6 +39,7 @@ export function CoffeeCard({ coffee }: CoffeeCardProps) {
   const stockQuantityOfThisCoffee = coffee.stock?.quantity ?? 0
   const disableIncreaseButton =
     watchDesiredQuantity === stockQuantityOfThisCoffee
+  const outOfStock = stockQuantityOfThisCoffee === 0
 
   useEffect(() => {
     if (isSubmitSuccessful) {
@@ -47,7 +48,7 @@ export function CoffeeCard({ coffee }: CoffeeCardProps) {
   }, [formState, reset])
 
   return (
-    <CoffeeCardContainer>
+    <CoffeeCardContainer outOfStock={outOfStock}>
       <img src={coffee.image} alt={coffee.name} />
       <Tags>
         {coffee.coffeesOnTags.map(item => (
@@ -102,7 +103,7 @@ export function CoffeeCard({ coffee }: CoffeeCardProps) {
               <Plus weight="bold" />
             </button>
           </div>
-          <button type="submit">
+          <button type="submit" disabled={outOfStock}>
             <ShoppingCartSimple weight="fill" />
           </button>
         </Actions>

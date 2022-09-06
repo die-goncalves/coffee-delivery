@@ -1,6 +1,9 @@
 import styled from 'styled-components'
 
-export const CoffeeCardContainer = styled.div`
+type CoffeeCardContainerProps = {
+  outOfStock: boolean
+}
+export const CoffeeCardContainer = styled.div<CoffeeCardContainerProps>`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -8,6 +11,8 @@ export const CoffeeCardContainer = styled.div`
   max-width: 16rem;
   background: ${props => props.theme.colors['base/card']};
   border-radius: 6px 36px;
+
+  ${props => props.outOfStock && `opacity: 0.5;`}
 
   & > h1 {
     font-family: 'Baloo 2', cursive;
@@ -108,7 +113,7 @@ export const Actions = styled.form`
     gap: 0.125rem;
     border-radius: 6px;
 
-    input {
+    & > input {
       text-align: center;
       background: transparent;
       border: none;
@@ -125,7 +130,7 @@ export const Actions = styled.form`
       }
     }
 
-    button {
+    & > button {
       display: flex;
       border: none;
       color: ${props => props.theme.colors['brand/purple']};
@@ -157,23 +162,28 @@ export const Actions = styled.form`
     border-radius: 6px;
     color: ${props => props.theme.colors['base/card']};
 
-    cursor: pointer;
-
     transition-duration: 0.2s;
     transition-property: background;
     transition-timing-function: ease-out;
+
+    cursor: pointer;
+
+    &:disabled {
+      opacity: 0.25;
+      cursor: not-allowed;
+    }
 
     ${props =>
       props.theme.name === 'dark-theme'
         ? `
             background: ${props.theme.colors['brand/purple']};
-            &:hover {
+            &:hover:not(:disabled) {
               background: ${props.theme.colors['brand/purple-dark']};
             }
           `
         : `
             background: ${props.theme.colors['brand/purple-dark']};
-            &:hover {
+            &:hover:not(:disabled) {
               background: ${props.theme.colors['brand/purple']};
             }
           `}
