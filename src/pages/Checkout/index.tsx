@@ -24,7 +24,8 @@ import {
   TotalPrice,
   InputStyle,
   InputAndErrors,
-  ErrorStyle
+  ErrorStyle,
+  MessageNoItems
 } from './styles'
 import { useDelivery } from '../../hooks/useDelivery'
 import { api } from '../../lib/api'
@@ -172,6 +173,12 @@ export function Checkout() {
       }
     }
   }
+
+  useEffect(() => {
+    if (!cart.length) {
+      clearErrors()
+    }
+  }, [cart])
 
   useEffect(() => {
     if (isSubmitSuccessful) {
@@ -359,29 +366,36 @@ export function Checkout() {
         </div>
         <div>
           <h1>Cafés selecionados</h1>
-          <CoffeesInCart>
+          <CoffeesInCart items={!!cart.length}>
             {cart.map(item => (
               <CoffeeSelected key={item.id} coffee={item} />
             ))}
 
-            <TotalPrice>
-              <div>
-                <span>Total de itens</span>
-                <span>{totalPriceItensFormatted}</span>
-              </div>
-              <div>
-                <span>Entrega</span>
-                <span>R$ 3,70</span>
-              </div>
-              <div>
-                <strong>Total</strong>
-                <strong>{totalPriceFormatted}</strong>
-              </div>
-            </TotalPrice>
+            {cart.length ? (
+              <TotalPrice>
+                <div>
+                  <span>Total de itens</span>
+                  <span>{totalPriceItensFormatted}</span>
+                </div>
+                <div>
+                  <span>Entrega</span>
+                  <span>R$ 3,70</span>
+                </div>
+                <div>
+                  <strong>Total</strong>
+                  <strong>{totalPriceFormatted}</strong>
+                </div>
+              </TotalPrice>
+            ) : (
+              <MessageNoItems>
+                Adicione pelo menos um café no carrinho
+              </MessageNoItems>
+            )}
+
             <input
               type="submit"
               value="Confirmar pedido"
-              disabled={isSubmitting}
+              disabled={isSubmitting || !cart.length}
             />
           </CoffeesInCart>
         </div>

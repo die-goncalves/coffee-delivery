@@ -440,7 +440,10 @@ export const InputsPaymentMethod = styled.div`
   }
 `
 
-export const CoffeesInCart = styled.div`
+type CoffeesInCartProps = {
+  items: boolean
+}
+export const CoffeesInCart = styled.div<CoffeesInCartProps>`
   display: flex;
   flex-direction: column;
   background: ${props => props.theme.colors['base/card']};
@@ -470,13 +473,31 @@ export const CoffeesInCart = styled.div`
     transition-property: background-color;
     transition-timing-function: ease-out;
 
-    &:hover:not(:disabled) {
+    /* &:hover:not(:disabled) {
       background: ${props => props.theme.colors['brand/yellow-dark']};
     }
     &:disabled {
       cursor: wait;
       opacity: 0.75;
-    }
+    } */
+
+    ${props =>
+      props.items
+        ? `
+            &:hover:not(:disabled) {
+              background: ${props.theme.colors['brand/yellow-dark']};
+            }
+            &:disabled {
+              cursor: wait;
+              opacity: 0.75;
+            };
+          `
+        : `
+            &:disabled {
+              cursor: not-allowed;
+              opacity: 0.75;
+            };
+          `}
   }
 
   @media (min-width: 320px) {
@@ -604,4 +625,16 @@ export const ErrorStyle = styled.span`
   @media (min-width: 480px) {
     font-size: 0.75rem;
   }
+`
+
+export const MessageNoItems = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  text-align: center;
+
+  font-family: 'Baloo 2', cursive;
+  font-weight: 700;
+  font-size: 1.125rem;
+  color: ${props => props.theme.colors['base/subtitle']};
 `
