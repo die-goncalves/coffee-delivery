@@ -7,4 +7,8 @@ export const SVGContainer = styled.svg`
         ? props.theme.colors['base/title']
         : props.theme.colors['base/subtitle']};
   }
+  transition: all 0.2s ease-out;
+  &:hover {
+    filter: opacity(75%);
+  }
 `
