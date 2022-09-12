@@ -22,4 +22,15 @@ export const GlobalStyle = createGlobalStyle`
     line-height: 1.3;
     font-size: 1rem;
   }
+
+  .Toastify__toast-container {
+    z-index: 999999;
+  }
+  .Toastify__toast {
+    background: ${props => props.theme.colors['base/card']};
+    color: ${props => props.theme.colors['base/title']};
+  }
+  .Toastify__close-button {
+    color: ${props => props.theme.colors['base/title']};
+  }
 `

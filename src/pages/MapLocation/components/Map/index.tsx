@@ -9,7 +9,7 @@ import {
   GeographicCoordinatesType,
   useDelivery
 } from '../../../../hooks/useDelivery'
-import { api } from '../../../../lib/api'
+import { api } from '../../../../services/apiClient'
 
 import 'mapbox-gl/dist/mapbox-gl.css'
 

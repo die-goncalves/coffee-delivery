@@ -8,8 +8,12 @@ import {
   ThemePreferenceContextProvider
 } from './hooks/useThemes'
 import { DeliveryProvider } from './hooks/useDelivery'
+import { AuthProvider } from './hooks/useAuth'
+import { ToastContainer } from 'react-toastify'
 
 import { GlobalStyle } from './styles/global'
+
+import 'react-toastify/dist/ReactToastify.css'
 
 function App() {
   return (
@@ -21,12 +25,26 @@ function App() {
               <CartProvider>
                 <BrowserRouter>
                   <DeliveryProvider>
-                    <Router />
+                    <AuthProvider>
+                      <Router />
+                    </AuthProvider>
                   </DeliveryProvider>
                 </BrowserRouter>
               </CartProvider>
             </StockProvider>
 
+            <ToastContainer
+              position="top-center"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme={currentTheme.name === 'dark-theme' ? 'dark' : 'light'}
+            />
             <GlobalStyle />
           </ThemeProvider>
         )}

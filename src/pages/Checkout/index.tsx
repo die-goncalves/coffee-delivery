@@ -28,7 +28,7 @@ import {
   MessageNoItems
 } from './styles'
 import { useDelivery } from '../../hooks/useDelivery'
-import { api } from '../../lib/api'
+import { api } from '../../services/apiClient'
 import { useStock } from '../../hooks/useStock'
 
 type FormInputs = {

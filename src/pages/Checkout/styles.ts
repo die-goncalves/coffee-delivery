@@ -48,11 +48,7 @@ export const CheckoutContainer = styled.div`
   @media (min-width: 1440px) {
     padding: 2.5rem 10rem;
     & form {
-      /* flex-direction: initial; */
-      /* flex-wrap: wrap; */
-      /* align-items: start; */
       gap: 1.3125rem;
-      /* justify-content: space-between; */
     }
   }
 `
@@ -145,9 +141,6 @@ export const DeliveryAddress = styled.div`
   }
   @media (min-width: 640px) {
     padding: 2.5rem;
-  }
-  @media (min-width: 1440px) {
-    /* width: 40rem; */
   }
 `
 
@@ -472,14 +465,6 @@ export const CoffeesInCart = styled.div<CoffeesInCartProps>`
     transition-duration: 0.2s;
     transition-property: background-color;
     transition-timing-function: ease-out;
-
-    /* &:hover:not(:disabled) {
-      background: ${props => props.theme.colors['brand/yellow-dark']};
-    }
-    &:disabled {
-      cursor: wait;
-      opacity: 0.75;
-    } */
 
     ${props =>
       props.items

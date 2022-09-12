@@ -1,5 +1,5 @@
 import { CoffeeDeliveryLogo } from '../Logo/CoffeeDeliveryLogo'
-import { CoffeeLogo } from '../Logo/CoffeLogo'
+import { CoffeeLogo } from '../Logo/CoffeeLogo'
 import { MapPin, ShoppingCart } from 'phosphor-react'
 import {
   CartContainer,
@@ -10,6 +10,7 @@ import { useCart } from '../../hooks/useCart'
 import { Link } from 'react-router-dom'
 import { SelectTheme } from '../SelectTheme'
 import { useDelivery, DeliveryType } from '../../hooks/useDelivery'
+import { UserActions } from '../UserActions'
 
 export function Header() {
   const { cart } = useCart()
@@ -47,12 +48,17 @@ export function Header() {
 
       <div>
         <SelectTheme />
+        <UserActions />
+
         <LocationAndCartContainer>
-          <Link to="/location" title={mountedAddress}>
+          <Link
+            to="/location"
+            title={mountedAddress.length ? mountedAddress : 'Ir para o mapa'}
+          >
             <MapPin weight="fill" />
             {mountedAddress && <span>&nbsp;{mountedAddress}</span>}
           </Link>
-          <Link to="/checkout">
+          <Link to="/checkout" title="Ir para o checkout">
             <CartContainer>
               <div>
                 {quantityCoffee > 99 ? (

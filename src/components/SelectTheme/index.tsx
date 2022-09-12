@@ -9,13 +9,19 @@ export function SelectTheme() {
       {(() => {
         if (currentTheme.name === 'dark-theme') {
           return (
-            <ThemesContainer onClick={() => changeTheme('LIGHT')}>
+            <ThemesContainer
+              title="Trocar para tema claro"
+              onClick={() => changeTheme('LIGHT')}
+            >
               <Moon weight="fill" />
             </ThemesContainer>
           )
         } else {
           return (
-            <ThemesContainer onClick={() => changeTheme('DARK')}>
+            <ThemesContainer
+              title="Trocar para tema escuro"
+              onClick={() => changeTheme('DARK')}
+            >
               <SunDim />
             </ThemesContainer>
           )
