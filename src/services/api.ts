@@ -12,7 +12,7 @@ function signOut() {
 }
 
 type ErrorResponseDataType = {
-  code: string
+  name: string
   message: string
 }
 
@@ -27,7 +27,7 @@ export function setupAPIClient() {
     },
     (error: AxiosError<ErrorResponseDataType>) => {
       if (error?.response?.status === 401) {
-        if (error.response.data.code === 'token.expired') {
+        if (error.response.data.name === 'TokenExpiredError') {
           const cookies = Cookies.get()
           const { '@coffee-delivery-v1.0.0:refresh-token': refreshToken } =
             cookies

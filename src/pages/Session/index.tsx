@@ -17,6 +17,7 @@ import {
   RegisterLink,
   EyeContainer
 } from './styles'
+import { AxiosError } from 'axios'
 
 type FormInputs = {
   email: string
@@ -70,16 +71,25 @@ export function Session() {
       if (location.state) navigate(-1)
       navigate('/')
     } catch (error) {
-      const typedError = error as Error
-      toast.error(typedError.message, {
-        position: 'top-center',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined
-      })
+      if (error instanceof AxiosError) {
+        const typedError = error as AxiosError<{
+          error: {
+            name: string
+            message: string
+          }
+        }>
+        toast.error(typedError.response?.data.error.message, {
+          position: 'top-center',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined
+        })
+      } else {
+        console.log({ error })
+      }
     }
   }
 

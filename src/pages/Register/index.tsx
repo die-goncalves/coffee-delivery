@@ -17,6 +17,7 @@ import {
   SessionLink,
   EyeContainer
 } from './styles'
+import { AxiosError } from 'axios'
 
 type FormInputs = {
   email: string
@@ -56,7 +57,7 @@ export function Register() {
   const onSubmit = async (data: FormInputs) => {
     try {
       await signUp(data)
-      toast.success('Conta criada! Agora só falta pedir um cafézinho 😋', {
+      toast.success('Conta criada! Agora só falta pedir um cafezinho 😋', {
         position: 'top-center',
         autoClose: 5000,
         hideProgressBar: false,
@@ -68,16 +69,25 @@ export function Register() {
       reset()
       navigate('/account/dashboard')
     } catch (error) {
-      const typedError = error as Error
-      toast.error(typedError.message, {
-        position: 'top-center',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined
-      })
+      if (error instanceof AxiosError) {
+        const typedError = error as AxiosError<{
+          error: {
+            name: string
+            message: string
+          }
+        }>
+        toast.error(typedError.response?.data.error.message, {
+          position: 'top-center',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined
+        })
+      } else {
+        console.log({ error })
+      }
     }
   }
 

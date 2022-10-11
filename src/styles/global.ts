@@ -24,7 +24,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   .Toastify__toast-container {
-    z-index: 999999;
+    z-index: 20;
   }
   .Toastify__toast {
     background: ${props => props.theme.colors['base/card']};

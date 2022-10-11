@@ -70,7 +70,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
       email,
       password
     })
-    if (data.error) throw new Error(data.message)
 
     await signIn({ email, password })
   }
@@ -80,7 +79,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
       email,
       password
     })
-    if (data.error) throw new Error(data.message)
 
     const { token, refresh_token: refreshToken } = data
 
@@ -105,8 +103,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
     })
 
     api.defaults.headers.common.Authorization = `Bearer ${token}`
-
-    // navigate('/account/dashboard')
   }
 
   function signOut() {
