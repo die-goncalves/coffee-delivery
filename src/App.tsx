@@ -1,7 +1,7 @@
 import { BrowserRouter } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
 import { Router } from './Router'
-import { StockProvider } from './hooks/useStock'
+import { InventoryProvider } from './hooks/useInventory'
 import { CartProvider } from './hooks/useCart'
 import {
   ThemePreferenceContext,
@@ -21,7 +21,7 @@ function App() {
       <ThemePreferenceContext.Consumer>
         {({ currentTheme }) => (
           <ThemeProvider theme={currentTheme}>
-            <StockProvider>
+            <InventoryProvider>
               <CartProvider>
                 <BrowserRouter>
                   <DeliveryProvider>
@@ -31,7 +31,7 @@ function App() {
                   </DeliveryProvider>
                 </BrowserRouter>
               </CartProvider>
-            </StockProvider>
+            </InventoryProvider>
 
             <ToastContainer
               position="top-center"

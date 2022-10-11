@@ -6,7 +6,7 @@ import {
   useReducer
 } from 'react'
 import { CoffeeInCartType, CoffeeType } from '../types'
-import { useStock } from './useStock'
+import { useInventory } from './useInventory'
 
 enum ActionTypes {
   INSERT_QUANTITY = 'INSERT_QUANTITY',
@@ -32,7 +32,7 @@ type CartProviderProps = {
 }
 
 export function CartProvider({ children }: CartProviderProps) {
-  const { coffees } = useStock()
+  const { coffees } = useInventory()
   const [cart, dispatch] = useReducer(
     (state: CoffeeInCartType[], action: any) => {
       switch (action.type) {
@@ -49,7 +49,7 @@ export function CartProvider({ children }: CartProviderProps) {
               return item
             })
           } else {
-            const { stock, ...newCoffee } = action.payload.coffee
+            const { inventory, ...newCoffee } = action.payload.coffee
             return [
               ...state,
               {
@@ -88,14 +88,14 @@ export function CartProvider({ children }: CartProviderProps) {
     }
   )
 
-  function isCoffeeInTheStock(coffeeId: string, desiredQuantity: number) {
-    const coffeeInTheStock = coffees.find(item => item.id === coffeeId)
+  function isCoffeeInTheInventory(coffeeId: string, desiredQuantity: number) {
+    const coffeeInTheInventory = coffees.find(item => item.id === coffeeId)
 
-    if (coffeeInTheStock && coffeeInTheStock.stock) {
-      if (coffeeInTheStock.stock.quantity < 1) {
+    if (coffeeInTheInventory && coffeeInTheInventory.inventory) {
+      if (coffeeInTheInventory.inventory.quantity < 1) {
         console.error('Café não disponível')
         return false
-      } else if (desiredQuantity > coffeeInTheStock.stock.quantity) {
+      } else if (desiredQuantity > coffeeInTheInventory.inventory.quantity) {
         console.error('Quantidade solicitada fora de estoque')
         return false
       }
@@ -107,9 +107,9 @@ export function CartProvider({ children }: CartProviderProps) {
   }
 
   function putCoffeeInCart(coffee: CoffeeType, desiredQuantity: number) {
-    const hasInStock = isCoffeeInTheStock(coffee.id, desiredQuantity)
+    const hasInInventory = isCoffeeInTheInventory(coffee.id, desiredQuantity)
 
-    if (hasInStock) {
+    if (hasInInventory) {
       dispatch({
         type: 'INSERT_QUANTITY',
         payload: { coffee, desiredQuantity }
@@ -121,9 +121,9 @@ export function CartProvider({ children }: CartProviderProps) {
     coffee: CoffeeInCartType,
     desiredQuantity: number
   ) {
-    const hasInStock = isCoffeeInTheStock(coffee.id, desiredQuantity)
+    const hasInInventory = isCoffeeInTheInventory(coffee.id, desiredQuantity)
 
-    if (hasInStock) {
+    if (hasInInventory) {
       dispatch({
         type: 'UPDATE_QUANTITY',
         payload: { coffee, desiredQuantity }

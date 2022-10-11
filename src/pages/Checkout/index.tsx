@@ -29,7 +29,7 @@ import {
 } from './styles'
 import { useDelivery } from '../../hooks/useDelivery'
 import { api } from '../../services/apiClient'
-import { useStock } from '../../hooks/useStock'
+import { useInventory } from '../../hooks/useInventory'
 
 type FormInputs = {
   postalCode: string
@@ -84,7 +84,7 @@ const schema = zod.object({
 export function Checkout() {
   const { deliveryState } = useDelivery()
   const navigate = useNavigate()
-  const { changePurchaseStatus } = useStock()
+  const { loadCoffees } = useInventory()
   const { cart, dispatch } = useCart()
   const {
     register,
@@ -142,7 +142,7 @@ export function Checkout() {
     }
 
     await api.post('order', order)
-    changePurchaseStatus()
+    loadCoffees()
     dispatch({ type: 'RESET_CART', payload: { initialState: [] } })
     navigate('/success', {
       state: {

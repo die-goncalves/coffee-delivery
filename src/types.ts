@@ -13,7 +13,7 @@ export type CoffeeData = {
       name: string
     }
   }[]
-  stock: {
+  inventory: {
     id: string
     quantity: number
   } | null
@@ -21,4 +21,7 @@ export type CoffeeData = {
 
 export type CoffeeType = Omit<CoffeeData, 'updatedAt' | 'createdAt'>
 
-export type CoffeeInCartType = { quantity: number } & Omit<CoffeeType, 'stock'>
+export type CoffeeInCartType = { quantity: number } & Omit<
+  CoffeeType,
+  'inventory'
+>

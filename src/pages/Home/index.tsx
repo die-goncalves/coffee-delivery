@@ -13,10 +13,10 @@ import {
   MainContainer,
   TitleContainer
 } from './styles'
-import { useStock } from '../../hooks/useStock'
+import { useInventory } from '../../hooks/useInventory'
 
 export function Home() {
-  const { coffees } = useStock()
+  const { coffees } = useInventory()
 
   return (
     <HomeContainer>

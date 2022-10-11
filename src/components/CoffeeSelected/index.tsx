@@ -1,5 +1,6 @@
 import { Minus, Plus, Trash } from 'phosphor-react'
 import { useCart } from '../../hooks/useCart'
+import { useInventory } from '../../hooks/useInventory'
 import { formatPrice } from '../../util/format'
 import { CoffeeInCartType } from '../../types'
 import {
@@ -8,14 +9,13 @@ import {
   ChangeAmountCoffeeInCartContainer,
   RemoveCoffeeFromCartButton
 } from './styles'
-import { useStock } from '../../hooks/useStock'
 
 type CoffeeSelectedProps = {
   coffee: CoffeeInCartType
 }
 
 export function CoffeeSelected({ coffee }: CoffeeSelectedProps) {
-  const { stockSpecificCoffee } = useStock()
+  const { inventorySpecificCoffee } = useInventory()
   const {
     updateQuantityOfSpecificCoffeeInCart,
     removeCoffeesSameTypeFromTheCart
@@ -40,8 +40,9 @@ export function CoffeeSelected({ coffee }: CoffeeSelectedProps) {
     number: coffee.price
   })
 
-  const stockQuantityOfThisCoffee = stockSpecificCoffee(coffee.id) ?? 0
-  const disableIncreaseButton = coffee.quantity === stockQuantityOfThisCoffee
+  const inventoryQuantityOfThisCoffee = inventorySpecificCoffee(coffee.id) ?? 0
+  const disableIncreaseButton =
+    coffee.quantity === inventoryQuantityOfThisCoffee
 
   return (
     <CoffeeSelectedContainer>
