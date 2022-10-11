@@ -25,11 +25,13 @@ import {
   InputStyle,
   InputAndErrors,
   ErrorStyle,
-  MessageNoItems
+  MessageNoItems,
+  InputSubmit
 } from './styles'
 import { useDelivery } from '../../hooks/useDelivery'
 import { api } from '../../services/apiClient'
 import { useInventory } from '../../hooks/useInventory'
+import { useAuth } from '../../hooks/useAuth'
 
 type FormInputs = {
   postalCode: string
@@ -43,6 +45,7 @@ type FormInputs = {
 }
 
 type Order = {
+  customer: string
   point: { geographicCoordinates?: { lat: number; lng: number } } & Omit<
     FormInputs,
     'paymentMethod'
@@ -82,6 +85,7 @@ const schema = zod.object({
 })
 
 export function Checkout() {
+  const { authState } = useAuth()
   const { deliveryState } = useDelivery()
   const navigate = useNavigate()
   const { loadCoffees } = useInventory()
@@ -126,6 +130,7 @@ export function Checkout() {
 
   const onSubmit = async (data: FormInputs) => {
     const order: Order = {
+      customer: authState.customer?.email ?? '',
       point: {
         city: data.city,
         complement: data.complement,
@@ -392,10 +397,17 @@ export function Checkout() {
               </MessageNoItems>
             )}
 
-            <input
+            <InputSubmit
               type="submit"
-              value="Confirmar pedido"
-              disabled={isSubmitting || !cart.length}
+              value={
+                authState.isAuthenticated
+                  ? 'Confirmar pedido'
+                  : 'Entre em uma sessão'
+              }
+              disabled={
+                isSubmitting || !cart.length || !authState.isAuthenticated
+              }
+              isSubmitting={isSubmitting}
             />
           </CoffeesInCart>
         </div>
