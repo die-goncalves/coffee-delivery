@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 type CoffeeCardContainerProps = {
-  outOfStock: boolean
+  outOfInventory: boolean
 }
 export const CoffeeCardContainer = styled.div<CoffeeCardContainerProps>`
   display: flex;
@@ -12,7 +12,7 @@ export const CoffeeCardContainer = styled.div<CoffeeCardContainerProps>`
   background: ${props => props.theme.colors['base/card']};
   border-radius: 6px 36px;
 
-  ${props => props.outOfStock && `opacity: 0.5;`}
+  ${props => props.outOfInventory && `opacity: 0.5;`}
 
   & > h1 {
     font-family: 'Baloo 2', cursive;
@@ -23,7 +23,7 @@ export const CoffeeCardContainer = styled.div<CoffeeCardContainerProps>`
     color: ${props => props.theme.colors['base/label']};
   }
 
-  @media (min-width: 320px) {
+  @media (min-width: 320px), (max-width: 320px) {
     width: auto;
     padding: 0 1rem 1rem;
 
@@ -36,7 +36,7 @@ export const CoffeeCardContainer = styled.div<CoffeeCardContainerProps>`
       font-size: 1rem;
     }
     & > p {
-      font-size: 0.7rem;
+      font-size: 0.875rem;
     }
 
     & h1 + p {
@@ -81,13 +81,13 @@ export const BuyContainer = styled.div`
     }
   }
 
-  @media (min-width: 320px) {
+  @media (min-width: 320px), (max-width: 320px) {
     & > div:first-child {
       & span:first-child {
-        font-size: 0.7rem;
+        font-size: 0.875rem;
       }
       & span:last-child {
-        font-size: 1.2rem;
+        font-size: 1.25rem;
       }
     }
   }
@@ -194,7 +194,7 @@ export const Actions = styled.form`
     }
   }
 
-  @media (min-width: 320px) {
+  @media (min-width: 320px), (max-width: 320px) {
     & > div {
       padding: 0.4rem;
       input {
@@ -276,10 +276,10 @@ export const Tags = styled.div`
     margin-left: 0.25rem;
   }
 
-  @media (min-width: 320px) {
+  @media (min-width: 320px), (max-width: 320px) {
     max-width: 11.40625rem;
     & > span {
-      font-size: 0.5rem;
+      font-size: 0.625rem;
     }
   }
   @media (min-width: 480px) {

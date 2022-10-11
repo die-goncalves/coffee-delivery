@@ -7,7 +7,7 @@ export const IntroContainer = styled.div`
   position: relative;
   max-width: 100vw;
 
-  @media (min-width: 320px) {
+  @media (min-width: 320px), (max-width: 320px) {
     & > img {
       max-width: inherit;
       position: absolute;
@@ -41,11 +41,11 @@ export const MainContainer = styled.div`
     display: flex;
     flex-direction: column;
     flex: 1;
-    z-index: 10;
+    z-index: 5;
     gap: 4.125rem;
   }
 
-  @media (min-width: 320px) {
+  @media (min-width: 320px), (max-width: 320px) {
     padding: 2rem 1rem;
     gap: 0rem;
     & > div {
@@ -56,7 +56,6 @@ export const MainContainer = styled.div`
     }
   }
   @media (min-width: 480px) {
-    text-align: center;
   }
   @media (min-width: 640px) {
     padding: 4.75rem 2rem;
@@ -91,7 +90,6 @@ export const TitleContainer = styled.div`
   gap: 1rem;
   h1 {
     font-family: 'Baloo 2', cursive;
-    font-size: 3rem;
     font-weight: 800;
     color: ${props => props.theme.colors['base/title']};
   }
@@ -100,20 +98,22 @@ export const TitleContainer = styled.div`
     color: ${props => props.theme.colors['base/subtitle']};
   }
 
-  @media (min-width: 320px) {
+  @media (min-width: 320px), (max-width: 320px) {
     h1 {
-      font-size: 2.4rem;
+      font-size: 2rem;
     }
     p {
-      font-size: 1rem;
+      font-size: 1.125rem;
     }
   }
   @media (min-width: 640px) {
     h1 {
-      font-size: 2.7rem;
+      font-size: 2.5rem;
     }
-    p {
-      font-size: 1.125rem;
+  }
+  @media (min-width: 1280px) {
+    h1 {
+      font-size: 3rem;
     }
   }
 `
@@ -124,21 +124,20 @@ export const ItemsContainer = styled.div`
 
   gap: 1.25rem 2.5rem;
 
-  @media (min-width: 320px) {
+  @media (min-width: 320px), (max-width: 320px) {
     grid-template-columns: 1fr;
     grid-template-rows: repeat(4, 1fr);
   }
   @media (min-width: 480px) {
-    margin: 0 auto;
-    grid-template-columns: auto auto;
-    grid-template-rows: auto auto;
   }
   @media (min-width: 640px) {
+    margin-right: auto;
+    grid-template-columns: auto auto;
+    grid-template-rows: auto auto;
   }
   @media (min-width: 768px) {
   }
   @media (min-width: 1024px) {
-    margin: initial;
     gap: 1.25rem;
   }
 `
@@ -149,13 +148,10 @@ export const Item = styled.div`
   color: ${props => props.theme.colors['base/text']};
   background: transparent;
 
-  @media (min-width: 320px) {
-    font-size: 0.8rem;
+  @media (min-width: 320px), (max-width: 320px) {
+    font-size: 0.875rem;
   }
   @media (min-width: 640px) {
-    font-size: 0.9rem;
-  }
-  @media (min-width: 768px) {
     font-size: 1rem;
   }
 `
@@ -195,11 +191,11 @@ export const CoffeeListContainer = styled.div`
     color: ${props => props.theme.colors['base/subtitle']};
   }
 
-  @media (min-width: 320px) {
+  @media (min-width: 320px), (max-width: 320px) {
     padding: 0 1rem;
     & > h1 {
       margin: 0 auto;
-      font-size: 1.6rem;
+      font-size: 1.5rem;
     }
   }
   @media (min-width: 480px) {
@@ -219,12 +215,12 @@ export const CoffeeListContainer = styled.div`
     padding: 0rem 5rem;
   }
   @media (min-width: 1280px) {
-  }
-  @media (min-width: 1440px) {
-    padding: 0rem 10rem;
     & > h1 {
       margin: initial;
     }
+  }
+  @media (min-width: 1440px) {
+    padding: 0rem 10rem;
   }
 `
 
@@ -232,7 +228,7 @@ export const CoffeeList = styled.div`
   display: grid;
   margin: 3.375rem auto 10rem auto;
 
-  @media (min-width: 320px) {
+  @media (min-width: 320px), (max-width: 320px) {
     grid-template-columns: repeat(1, 1fr);
     grid-gap: 2rem;
     margin: 3.375rem auto 6.75rem auto;

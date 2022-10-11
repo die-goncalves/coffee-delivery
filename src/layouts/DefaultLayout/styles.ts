@@ -7,8 +7,6 @@ export const MainContainer = styled.div`
   overflow: auto;
 
   &::-webkit-scrollbar {
-    width: 0.8vw;
-    height: 0.8vw;
     background: ${props => props.theme.colors['base/background']};
   }
   &::-webkit-scrollbar-thumb {
@@ -27,6 +25,19 @@ export const MainContainer = styled.div`
         props.theme.name === 'dark-theme'
           ? props.theme.colors['brand/purple-light']
           : props.theme.colors['brand/purple-dark']};
+    }
+  }
+
+  @media (min-width: 320px), (max-width: 320px) {
+    &::-webkit-scrollbar {
+      width: 1vw;
+      height: 1vw;
+    }
+  }
+  @media (min-width: 640px) {
+    &::-webkit-scrollbar {
+      width: 0.6vw;
+      height: 0.6vw;
     }
   }
 `

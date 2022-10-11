@@ -13,7 +13,7 @@ export const CheckoutContainer = styled.div`
     }
   }
 
-  input {
+  input:not([type='submit']) {
     color: ${props => props.theme.colors['base/title']};
   }
 
@@ -448,43 +448,6 @@ export const CoffeesInCart = styled.div<CoffeesInCartProps>`
     border-top: 1px solid ${props => props.theme.colors['base/button']};
   }
 
-  & > input {
-    padding: 0.75rem 0.5rem;
-    border-radius: 6px;
-    border: none;
-    text-transform: uppercase;
-    background: ${props => props.theme.colors['brand/yellow']};
-    color: ${props => props.theme.colors['base/background']};
-
-    font-size: 0.875rem;
-    font-weight: 700;
-    line-height: 1.6;
-
-    cursor: pointer;
-
-    transition-duration: 0.2s;
-    transition-property: background-color;
-    transition-timing-function: ease-out;
-
-    ${props =>
-      props.items
-        ? `
-            &:hover:not(:disabled) {
-              background: ${props.theme.colors['brand/yellow-dark']};
-            }
-            &:disabled {
-              cursor: wait;
-              opacity: 0.75;
-            };
-          `
-        : `
-            &:disabled {
-              cursor: not-allowed;
-              opacity: 0.75;
-            };
-          `}
-  }
-
   @media (min-width: 320px) {
     padding: 1rem;
     width: 100%;
@@ -622,4 +585,45 @@ export const MessageNoItems = styled.div`
   font-weight: 700;
   font-size: 1.125rem;
   color: ${props => props.theme.colors['base/subtitle']};
+`
+
+type InputSubmitProps = {
+  isSubmitting: boolean
+}
+export const InputSubmit = styled.input<InputSubmitProps>`
+  padding: 0.75rem 0.5rem;
+  border-radius: 6px;
+  border: none;
+  text-transform: uppercase;
+  background: ${props => props.theme.colors['brand/yellow']};
+  color: ${props => props.theme.colors['base/background']};
+
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.6;
+
+  cursor: pointer;
+
+  transition-duration: 0.2s;
+  transition-property: background-color;
+  transition-timing-function: ease-out;
+
+  &:hover:not(:disabled) {
+    background: ${props => props.theme.colors['brand/yellow-dark']};
+  }
+
+  ${props =>
+    props.isSubmitting
+      ? `
+          &:disabled {
+            cursor: wait;
+            opacity: 0.75;
+          };
+        `
+      : `
+          &:disabled {
+            cursor: not-allowed;
+            opacity: 0.75;
+          };
+        `}
 `

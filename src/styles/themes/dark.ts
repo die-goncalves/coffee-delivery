@@ -19,6 +19,7 @@ export const darkTheme = {
     'base/card': 'rgb(12,13,13)',
 
     'base/white': '#FFF',
+    'base/black': '#000',
     'base/background': 'rgb(5,5,5)',
     'base/error': '#F75A68'
   }

@@ -2,7 +2,18 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
 export const SessionContainer = styled.div`
-  padding: 2rem 10rem;
+  @media (min-width: 320px), (max-width: 320px) {
+    padding: 1.5rem 0;
+  }
+  @media (min-width: 640px) {
+    padding: 2rem 1rem;
+  }
+  @media (min-width: 1280px) {
+    padding: 2rem 5rem;
+  }
+  @media (min-width: 1440px) {
+    padding: 2rem 10rem;
+  }
 `
 
 export const SessionCard = styled.div`
@@ -17,6 +28,22 @@ export const SessionCard = styled.div`
 
   & > h1 {
     margin: auto;
+  }
+
+  @media (min-width: 320px), (max-width: 320px) {
+    padding: 1rem;
+    width: 100%;
+    & > h1 {
+      font-size: 1.125rem;
+    }
+  }
+  @media (min-width: 480px) {
+    width: 25rem;
+  }
+  @media (min-width: 640px) {
+    & > h1 {
+      font-size: 1.5rem;
+    }
   }
 `
 
@@ -56,6 +83,17 @@ export const SessionForm = styled.form`
         props.theme.name === 'dark-theme'
           ? props.theme.colors['brand/yellow-dark']
           : props.theme.colors['brand/yellow-dark']};
+    }
+  }
+
+  @media (min-width: 320px), (max-width: 320px) {
+    input[type='submit'] {
+      font-size: 0.75rem;
+    }
+  }
+  @media (min-width: 640px) {
+    input[type='submit'] {
+      font-size: 0.875rem;
     }
   }
 `
@@ -107,11 +145,11 @@ export const ErrorStyle = styled.span`
   color: ${props => props.theme.colors['base/error']};
   font-size: 0.8rem;
 
-  @media (min-width: 320px) {
-    font-size: 0.675rem;
-  }
-  @media (min-width: 480px) {
+  @media (min-width: 320px), (max-width: 320px) {
     font-size: 0.75rem;
+  }
+  @media (min-width: 640px) {
+    font-size: 0.875rem;
   }
 `
 
@@ -119,7 +157,7 @@ export const EyeContainer = styled.button`
   display: flex;
   position: absolute;
   border: none;
-  z-index: 50;
+  z-index: 5;
   top: 50%;
   right: 0%;
   transform: translate(-50%, -50%);
@@ -166,6 +204,17 @@ export const RegisterContainer = styled.div`
       height: 2px;
     }
   }
+
+  @media (min-width: 320px), (max-width: 320px) {
+    p {
+      font-size: 0.75rem;
+    }
+  }
+  @media (min-width: 640px) {
+    p {
+      font-size: 0.875rem;
+    }
+  }
 `
 
 export const RegisterLink = styled(Link)`
@@ -191,5 +240,12 @@ export const RegisterLink = styled(Link)`
 
   &:hover {
     background: ${props => props.theme.colors['brand/purple-dark']};
+  }
+
+  @media (min-width: 320px), (max-width: 320px) {
+    font-size: 0.75rem;
+  }
+  @media (min-width: 640px) {
+    font-size: 0.875rem;
   }
 `

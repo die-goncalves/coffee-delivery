@@ -4,7 +4,7 @@ export const HeaderContainer = styled.nav`
   display: flex;
   align-items: center;
   position: sticky;
-  z-index: 99999;
+  z-index: 10;
   top: 0;
   justify-content: space-between;
   background: ${props => props.theme.colors['base/background']};
@@ -23,7 +23,7 @@ export const HeaderContainer = styled.nav`
     gap: 0.75rem;
   }
 
-  @media (min-width: 320px) {
+  @media (min-width: 320px), (max-width: 320px) {
     padding: 1.5rem 1rem;
 
     & > a {
@@ -33,6 +33,14 @@ export const HeaderContainer = styled.nav`
       svg:last-child {
         display: initial;
       }
+    }
+    & > div {
+      gap: 0.25rem;
+    }
+  }
+  @media (min-width: 480px) {
+    & > div {
+      gap: 0.75rem;
     }
   }
   @media (min-width: 640px) {
@@ -106,7 +114,8 @@ export const LocationAndCartContainer = styled.nav`
     }
   }
 
-  @media (min-width: 320px) {
+  @media (min-width: 320px), (max-width: 320px) {
+    gap: 0.25rem;
     a {
       span {
         font-size: 0.9rem;
@@ -114,6 +123,7 @@ export const LocationAndCartContainer = styled.nav`
     }
   }
   @media (min-width: 480px) {
+    gap: 0.75rem;
     a {
       span {
         font-size: 1rem;
@@ -173,7 +183,7 @@ export const CartContainer = styled.div`
     }
   }
 
-  @media (min-width: 320px) {
+  @media (min-width: 320px), (max-width: 320px) {
     & > div {
       span {
         font-size: 0.675rem;
