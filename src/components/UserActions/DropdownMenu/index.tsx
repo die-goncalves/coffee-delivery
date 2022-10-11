@@ -1,19 +1,37 @@
 import { Buildings, IdentificationCard, SignOut, User } from 'phosphor-react'
 import { useEffect } from 'react'
+import { toast } from 'react-toastify'
 import { useAuth } from '../../../hooks/useAuth'
+import { useDelivery } from '../../../hooks/useDelivery'
 import {
   DashboardLink,
-  MenuButton,
-  ModalContainer,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
   SignOutButton
 } from './styles'
 
-export function MenuModal() {
+export function DropdownMenu() {
   const { authState, signOut } = useAuth()
+  const { deliveryState } = useDelivery()
+  const hasDeliveryAddress = !!deliveryState.currentDelivery?.street
+
+  function handleSignOut() {
+    signOut()
+    toast.success('Sessão encerrada!', {
+      position: 'top-center',
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined
+    })
+  }
 
   useEffect(() => {
     function handleClick() {
-      const menuElement = document.querySelector<HTMLDivElement>('#menu-modal')
+      const menuElement =
+        document.querySelector<HTMLDivElement>('#dropdown-menu')
 
       if (menuElement) {
         const isVisible = menuElement.classList.contains('visible')
@@ -25,8 +43,9 @@ export function MenuModal() {
       }
     }
 
-    const triggerElement =
-      document.querySelector<HTMLButtonElement>('#trigger-menu')
+    const triggerElement = document.querySelector<HTMLButtonElement>(
+      '#dropdown-menu-trigger'
+    )
 
     triggerElement?.addEventListener('click', handleClick)
 
@@ -38,9 +57,11 @@ export function MenuModal() {
   useEffect(() => {
     function handleClick(event: MouseEvent) {
       const target = event.target as Node
-      const menuElement = document.querySelector<HTMLDivElement>('#menu-modal')
-      const triggerElement =
-        document.querySelector<HTMLButtonElement>('#trigger-menu')
+      const menuElement =
+        document.querySelector<HTMLDivElement>('#dropdown-menu')
+      const triggerElement = document.querySelector<HTMLButtonElement>(
+        '#dropdown-menu-trigger'
+      )
 
       const isClickInsideTrigger = triggerElement?.contains(target)
       const isClickInsideMenu = menuElement?.contains(target)
@@ -63,7 +84,8 @@ export function MenuModal() {
       document.querySelector<HTMLAnchorElement>('#link-dashboard')
 
     function handleClick() {
-      const menuElement = document.querySelector<HTMLDivElement>('#menu-modal')
+      const menuElement =
+        document.querySelector<HTMLDivElement>('#dropdown-menu')
       menuElement?.classList.remove('visible')
     }
 
@@ -76,11 +98,14 @@ export function MenuModal() {
 
   return (
     <>
-      <MenuButton id="trigger-menu" type="button">
+      <DropdownMenuTrigger id="dropdown-menu-trigger" type="button">
         <User />
-      </MenuButton>
+      </DropdownMenuTrigger>
 
-      <ModalContainer id="menu-modal">
+      <DropdownMenuContent
+        hasDeliveryAddress={hasDeliveryAddress}
+        id="dropdown-menu"
+      >
         <div>
           <IdentificationCard weight="fill" />
           <p>{authState.customer?.email}</p>
@@ -90,12 +115,12 @@ export function MenuModal() {
             <Buildings weight="fill" />
             <p>Dashboard</p>
           </DashboardLink>
-          <SignOutButton onClick={signOut}>
+          <SignOutButton onClick={handleSignOut}>
             <SignOut weight="fill" />
             <p>Sair</p>
           </SignOutButton>
         </div>
-      </ModalContainer>
+      </DropdownMenuContent>
     </>
   )
 }

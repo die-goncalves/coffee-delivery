@@ -1,6 +1,6 @@
 import { SignIn } from 'phosphor-react'
 import { useAuth } from '../../hooks/useAuth'
-import { MenuModal } from './MenuModal'
+import { DropdownMenu } from './DropdownMenu'
 import { LinkSendToSession, UserActionsContainer } from './styles'
 
 export function UserActions() {
@@ -10,7 +10,7 @@ export function UserActions() {
     <UserActionsContainer>
       {(() => {
         if (authState.isAuthenticated) {
-          return <MenuModal />
+          return <DropdownMenu />
         } else {
           return (
             <LinkSendToSession to="/account/session" title="Ir para sessão">

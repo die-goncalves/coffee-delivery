@@ -1,7 +1,10 @@
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
-export const ModalContainer = styled.div`
+type DropdownMenuContentProps = {
+  hasDeliveryAddress: boolean
+}
+export const DropdownMenuContent = styled.div<DropdownMenuContentProps>`
   display: flex;
   margin-top: 0.5rem;
   border-radius: 6px;
@@ -51,6 +54,16 @@ export const ModalContainer = styled.div`
   }
   &:not(.visible) {
     display: none;
+  }
+
+  @media (min-width: 320px), (max-width: 320px) {
+    ${props =>
+      props.hasDeliveryAddress
+        ? 'transform: translate(51.5%, 0%);'
+        : 'transform: translate(28.5%, 0%);'}
+  }
+  @media (min-width: 480px) {
+    transform: translate(0);
   }
 `
 
@@ -110,7 +123,7 @@ export const SignOutButton = styled.button`
   }
 `
 
-export const MenuButton = styled.button`
+export const DropdownMenuTrigger = styled.button`
   display: flex;
   border: none;
   padding: 0.5rem;
