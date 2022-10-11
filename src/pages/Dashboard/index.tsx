@@ -1,36 +1,111 @@
+import { format } from 'date-fns'
+import ptBr from 'date-fns/locale/pt-BR'
 import Cookies from 'js-cookie'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { OrderDialog } from '../../components/OrderDialog'
 import { useAuth } from '../../hooks/useAuth'
 import { api } from '../../services/apiClient'
+import { DashboardContainer, OrderCard, OrderCardContainer } from './styles'
+
+type CustomerType = {
+  id: string
+  email: string
+}
+
+type CoffeeType = {
+  id: string
+  price: number
+  name: string
+  image: string
+  description: string
+}
+
+type FeaturesType = {
+  city: string
+  complement: string
+  neighborhood: string
+  number: number
+  postalCode: string
+  state: string
+  street: string
+}
+
+export type OrderType = {
+  id: string
+  createdAt: string
+  customer: CustomerType
+  orderCoffee: {
+    coffee: CoffeeType
+    quantity: number
+  }[]
+  point: {
+    lat: number
+    lng: number
+    features: FeaturesType
+  }
+  payment: {
+    price: string
+    method: string
+  }
+}
 
 export function Dashboard() {
-  const { authState, signOut } = useAuth()
-  const [response, setResponse] = useState<any>()
+  const { authState } = useAuth()
+  const [orders, setOrders] = useState<OrderType[]>([])
   const cookies = Cookies.get()
 
-  async function handleMe() {
-    try {
+  function formattedDate(date: string) {
+    return format(new Date(date), "dd 'de' MMMM 'de' yyyy, HH:mm:ss", {
+      locale: ptBr
+    })
+  }
+
+  useEffect(() => {
+    const loadOrders = async () => {
       const { data } = await api.get('/me', {
         headers: {
           Authorization: `Bearer ${cookies['@coffee-delivery-v1.0.0:token']}`
         }
       })
-      setResponse(data)
-    } catch (error) {
-      setResponse('')
+      setOrders(data.orders)
     }
-  }
+    loadOrders()
+  }, [])
 
   if (!authState.isAuthenticated) {
     return null
   }
 
   return (
-    <div>
-      <span>{JSON.stringify(authState, null, 2)}</span>
-      <span>{response && JSON.stringify(response)}</span>
-      <button onClick={handleMe}>me</button>
-      <button onClick={signOut}>Sair</button>
-    </div>
+    <DashboardContainer>
+      <div className="group-order">
+        {orders.map(order => (
+          <OrderCardContainer key={order.id}>
+            <OrderCard>
+              <div>
+                <strong>Identificação do pedido</strong>
+                <span>{order.id}</span>
+              </div>
+              <div>
+                <strong>Pedido realizado em</strong>
+                <span>{formattedDate(order.createdAt)}</span>
+              </div>
+              <div>
+                <strong>Preço total</strong>
+                <span>{order.payment.price}</span>
+              </div>
+              <div>
+                <strong>Entregue em</strong>
+                <span>
+                  {order.point.features.street}, {order.point.features.number}
+                </span>
+              </div>
+
+              <OrderDialog order={order} />
+            </OrderCard>
+          </OrderCardContainer>
+        ))}
+      </div>
+    </DashboardContainer>
   )
 }
