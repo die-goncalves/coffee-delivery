@@ -4,6 +4,7 @@ import { MapPin, ShoppingCart } from 'phosphor-react'
 import {
   CartContainer,
   HeaderContainer,
+  HeaderContent,
   LocationAndCartContainer
 } from './styles'
 import { useCart } from '../../hooks/useCart'
@@ -41,38 +42,40 @@ export function Header() {
 
   return (
     <HeaderContainer>
-      <Link to="/">
-        <CoffeeDeliveryLogo />
-        <CoffeeLogo />
-      </Link>
+      <HeaderContent>
+        <Link to="/">
+          <CoffeeDeliveryLogo />
+          <CoffeeLogo />
+        </Link>
 
-      <div>
-        <SelectTheme />
-        <UserActions />
+        <div>
+          <SelectTheme />
+          <UserActions />
 
-        <LocationAndCartContainer>
-          <Link
-            to="/location"
-            title={mountedAddress.length ? mountedAddress : 'Ir para o mapa'}
-          >
-            <MapPin weight="fill" />
-            {mountedAddress && <span>&nbsp;{mountedAddress}</span>}
-          </Link>
-          <Link to="/checkout" title="Ir para o checkout">
-            <CartContainer>
-              <div>
-                {quantityCoffee > 99 ? (
-                  <span>+ 99</span>
-                ) : (
-                  <span>{quantityCoffee}</span>
-                )}
-              </div>
+          <LocationAndCartContainer>
+            <Link
+              to="/location"
+              title={mountedAddress.length ? mountedAddress : 'Ir para o mapa'}
+            >
+              <MapPin weight="fill" />
+              {mountedAddress && <span>&nbsp;{mountedAddress}</span>}
+            </Link>
+            <Link to="/checkout" title="Ir para o checkout">
+              <CartContainer>
+                <div>
+                  {quantityCoffee > 99 ? (
+                    <span>+ 99</span>
+                  ) : (
+                    <span>{quantityCoffee}</span>
+                  )}
+                </div>
 
-              <ShoppingCart weight="fill" />
-            </CartContainer>
-          </Link>
-        </LocationAndCartContainer>
-      </div>
+                <ShoppingCart weight="fill" />
+              </CartContainer>
+            </Link>
+          </LocationAndCartContainer>
+        </div>
+      </HeaderContent>
     </HeaderContainer>
   )
 }

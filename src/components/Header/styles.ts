@@ -1,13 +1,20 @@
 import styled from 'styled-components'
 
-export const HeaderContainer = styled.nav`
-  display: flex;
-  align-items: center;
+export const HeaderContainer = styled.div`
   position: sticky;
   z-index: 10;
   top: 0;
-  justify-content: space-between;
+  max-width: 100vw;
   background: ${props => props.theme.colors['base/background']};
+`
+
+export const HeaderContent = styled.nav`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
 
   transition-duration: 0.2s;
   transition-property: background-color;
