@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 export const UserActionsContainer = styled.div`
   position: relative;
 
-  transition: all 2s ease-out;
+  transition: all 2s linear;
 `
 
 export const LinkSendToSession = styled(Link)`
@@ -17,7 +17,7 @@ export const LinkSendToSession = styled(Link)`
 
   transition-duration: 0.2s;
   transition-property: background-color;
-  transition-timing-function: ease-out;
+  transition-timing-function: linear;
 
   &:hover {
     background: ${props => props.theme.colors['base/button']};

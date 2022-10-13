@@ -6,6 +6,9 @@ export const HeaderContainer = styled.div`
   top: 0;
   max-width: 100vw;
   background: ${props => props.theme.colors['base/background']};
+  transition-property: background;
+  transition-duration: 0.2s;
+  transition-timing-function: linear;
 `
 
 export const HeaderContent = styled.nav`
@@ -84,7 +87,7 @@ export const LocationAndCartContainer = styled.nav`
 
     transition-duration: 0.2s;
     transition-property: background-color;
-    transition-timing-function: ease-out;
+    transition-timing-function: linear;
 
     &:hover {
       background: ${props => props.theme.colors['base/button']};

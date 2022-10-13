@@ -102,7 +102,7 @@ export const RightContent = styled.div`
 
     transition-duration: 0.2s;
     transition-property: all;
-    transition-timing-function: ease-out;
+    transition-timing-function: linear;
 
     &:hover {
       background: ${props =>

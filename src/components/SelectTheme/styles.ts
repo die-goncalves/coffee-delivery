@@ -12,7 +12,7 @@ export const ThemesContainer = styled.button`
 
   transition-duration: 0.2s;
   transition-property: background-color;
-  transition-timing-function: ease-out;
+  transition-timing-function: linear;
 
   svg {
     flex: none;

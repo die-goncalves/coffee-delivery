@@ -54,7 +54,7 @@ export const OrderCardContainer = styled.div`
   transform: translate(0);
   box-shadow: none;
 
-  transition: all 0.2s ease-out;
+  transition: all 0.2s linear;
 
   &:hover {
     box-shadow: -4px 0px 0 0 ${props => props.theme.colors['brand/purple']};

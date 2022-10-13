@@ -99,7 +99,7 @@ export const DeliveryAddress = styled.div`
 
           transition-duration: 0.2s;
           transition-property: color;
-          transition-timing-function: ease-out;
+          transition-timing-function: linear;
 
           &:hover {
             color: ${props => props.theme.colors['brand/yellow-dark']};
@@ -393,7 +393,7 @@ export const InputsPaymentMethod = styled.div`
 
     transition-duration: 0.2s;
     transition-property: background-color;
-    transition-timing-function: ease-out;
+    transition-timing-function: linear;
 
     svg {
       flex: none;
@@ -539,7 +539,7 @@ const Input = styled.input`
 
     transition-duration: 0.2s;
     transition-property: box-shadow;
-    transition-timing-function: ease-out;
+    transition-timing-function: linear;
 
     &::placeholder {
       font-size: 0.875rem;
@@ -606,7 +606,7 @@ export const InputSubmit = styled.input<InputSubmitProps>`
 
   transition-duration: 0.2s;
   transition-property: background-color;
-  transition-timing-function: ease-out;
+  transition-timing-function: linear;
 
   &:hover:not(:disabled) {
     background: ${props => props.theme.colors['brand/yellow-dark']};

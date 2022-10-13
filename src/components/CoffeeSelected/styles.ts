@@ -81,7 +81,7 @@ export const RemoveCoffeeFromCartButton = styled.button`
 
   transition-duration: 0.2s;
   transition-property: color, background-color;
-  transition-timing-function: ease-out;
+  transition-timing-function: linear;
 
   svg {
     flex: none;
@@ -89,7 +89,7 @@ export const RemoveCoffeeFromCartButton = styled.button`
 
     transition-duration: 0.2s;
     transition-property: color, background-color;
-    transition-timing-function: ease-out;
+    transition-timing-function: linear;
   }
 
   &:hover {
@@ -159,7 +159,7 @@ export const ChangeAmountCoffeeInCartContainer = styled.div`
 
     transition-duration: 0.2s;
     transition-property: color;
-    transition-timing-function: ease-out;
+    transition-timing-function: linear;
 
     &:hover {
       color: ${props => props.theme.colors['brand/purple-dark']};

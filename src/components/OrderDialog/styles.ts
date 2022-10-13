@@ -42,7 +42,7 @@ export const Header = styled.div`
     border-radius: 50%;
     background: ${props => props.theme.colors['base/card']};
 
-    transition: all 0.2s ease-out;
+    transition: all 0.2s linear;
     &:hover {
       background: ${props => props.theme.colors['base/button']};
     }
@@ -75,7 +75,7 @@ export const TriggerButton = styled.button`
   all: unset;
   cursor: pointer;
   color: ${props => props.theme.colors['brand/purple']};
-  transition: all 0.2s ease-out;
+  transition: all 0.2s linear;
   &:hover {
     color: ${props => props.theme.colors['brand/purple-dark']};
   }

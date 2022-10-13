@@ -71,7 +71,7 @@ export const SessionForm = styled.form`
 
     transition-duration: 0.2s;
     transition-property: all;
-    transition-timing-function: ease-out;
+    transition-timing-function: linear;
 
     &:disabled {
       opacity: 0.25;
@@ -117,7 +117,7 @@ const Input = styled.input`
 
     transition-duration: 0.2s;
     transition-property: box-shadow;
-    transition-timing-function: ease-out;
+    transition-timing-function: linear;
 
     &::placeholder {
       font-size: 0.875rem;
@@ -234,7 +234,7 @@ export const RegisterLink = styled(Link)`
 
   transition-duration: 0.2s;
   transition-property: all;
-  transition-timing-function: ease-out;
+  transition-timing-function: linear;
 
   background: ${props => props.theme.colors['brand/purple']};
 

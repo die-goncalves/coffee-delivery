@@ -79,7 +79,7 @@ export const DashboardLink = styled(Link)`
 
   transition-duration: 0.2s;
   transition-property: background-color;
-  transition-timing-function: ease-out;
+  transition-timing-function: linear;
 
   font-size: 1rem;
   color: ${props => props.theme.colors['base/subtitle']};
@@ -106,7 +106,7 @@ export const SignOutButton = styled.button`
 
   transition-duration: 0.2s;
   transition-property: background-color;
-  transition-timing-function: ease-out;
+  transition-timing-function: linear;
 
   font-size: 1rem;
   color: ${props => props.theme.colors['base/subtitle']};
@@ -134,7 +134,7 @@ export const DropdownMenuTrigger = styled.button`
 
   transition-duration: 0.2s;
   transition-property: background-color;
-  transition-timing-function: ease-out;
+  transition-timing-function: linear;
 
   cursor: pointer;
 

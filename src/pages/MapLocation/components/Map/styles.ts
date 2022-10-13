@@ -50,7 +50,7 @@ export const PinContainer = styled.div`
     border-left: 2px solid ${props => props.theme.colors['brand/purple-dark']};
     border-radius: 6px;
 
-    transition: all 0.25s ease-out;
+    transition: all 0.25s linear;
 
     & > span {
       color: ${props => props.theme.colors['brand/purple-dark']};
@@ -134,17 +134,17 @@ export const PinContainer = styled.div`
     &.placed > svg {
       & > path {
         transform: translate(5%, 10%) scale(0.9);
-        transition: all 0.5s ease-out;
+        transition: all 0.5s linear;
       }
       g {
         transform: translate(0%, 0%);
-        transition: transform 0.5s ease-out;
+        transition: transform 0.5s linear;
         & > path {
           fill: ${props =>
             props.theme.name === 'dark-theme'
               ? props.theme.colors['brand/yellow']
               : props.theme.colors['brand/purple-dark']};
-          transition: all 0.5s ease-out;
+          transition: all 0.5s linear;
         }
       }
     }
@@ -152,17 +152,17 @@ export const PinContainer = styled.div`
       & > path {
         filter: blur(2px);
         transform: translate(0, 0) scale(1);
-        transition: all 0.5s ease-out;
+        transition: all 0.5s linear;
       }
       g {
         transform: translate(0%, -20%);
-        transition: transform 0.5s ease-out;
+        transition: transform 0.5s linear;
         & > path {
           fill: ${props =>
             props.theme.name === 'dark-theme'
               ? props.theme.colors['brand/yellow-light']
               : props.theme.colors['brand/purple']};
-          transition: all 0.5s ease-out;
+          transition: all 0.5s linear;
         }
       }
     }

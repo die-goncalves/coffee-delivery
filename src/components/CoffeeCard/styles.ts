@@ -10,6 +10,10 @@ export const CoffeeCardContainer = styled.div<CoffeeCardContainerProps>`
   text-align: center;
   max-width: 16rem;
   background: ${props => props.theme.colors['base/card']};
+  transition-property: background;
+  transition-duration: 0.2s;
+  transition-timing-function: linear;
+
   border-radius: 6px 36px;
 
   ${props => props.outOfInventory && `opacity: 0.5;`}
@@ -113,6 +117,10 @@ export const Actions = styled.form`
     gap: 0.125rem;
     border-radius: 6px;
 
+    transition-property: background;
+    transition-duration: 0.2s;
+    transition-timing-function: linear;
+
     & > input {
       text-align: center;
       background: transparent;
@@ -140,7 +148,7 @@ export const Actions = styled.form`
 
       transition-duration: 0.2s;
       transition-property: color;
-      transition-timing-function: ease-out;
+      transition-timing-function: linear;
 
       &:hover {
         color: ${props => props.theme.colors['brand/purple-dark']};
@@ -164,7 +172,7 @@ export const Actions = styled.form`
 
     transition-duration: 0.2s;
     transition-property: background;
-    transition-timing-function: ease-out;
+    transition-timing-function: linear;
 
     cursor: pointer;
 
@@ -260,6 +268,9 @@ export const Tags = styled.div`
     border-radius: 100px;
     text-transform: uppercase;
 
+    transition-property: background, color;
+    transition-duration: 0.2s;
+    transition-timing-function: linear;
     ${props =>
       props.theme.name === 'dark-theme'
         ? `
