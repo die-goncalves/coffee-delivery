@@ -57,15 +57,7 @@ export function Register() {
   const onSubmit = async (data: FormInputs) => {
     try {
       await signUp(data)
-      toast.success('Conta criada! Agora só falta pedir um cafezinho 😋', {
-        position: 'top-center',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined
-      })
+      toast.success('Conta criada! Agora só falta pedir um cafezinho 😋')
       reset()
       navigate('/account/dashboard')
     } catch (error) {
@@ -76,15 +68,7 @@ export function Register() {
             message: string
           }
         }>
-        toast.error(typedError.response?.data.error.message, {
-          position: 'top-center',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined
-        })
+        toast.error(typedError.response?.data.error.message)
       } else {
         console.log({ error })
       }
