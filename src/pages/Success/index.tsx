@@ -8,6 +8,7 @@ import {
   OrderInfo,
   OrderInfoContainer
 } from './styles'
+import { formatPrice } from '../../util/format'
 
 type CustomizedState = {
   point: {
@@ -17,7 +18,7 @@ type CustomizedState = {
     state: string
   }
   duration: number
-  payment: { price: string; paymentMethod: string }
+  payment: { price: number; paymentMethod: string }
 }
 
 export function Success() {
@@ -74,7 +75,14 @@ export function Success() {
             <div>
               <p>Pagamento na entrega</p>
               <span>
-                {state.payment.price}, {paymentMethod()}
+                {formatPrice({
+                  options: {
+                    style: 'currency',
+                    currency: 'BRL'
+                  },
+                  number: state.payment.price
+                })}
+                , {paymentMethod()}
               </span>
             </div>
           </div>

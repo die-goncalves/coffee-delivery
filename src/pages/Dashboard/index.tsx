@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { OrderDialog } from '../../components/OrderDialog'
 import { useAuth } from '../../hooks/useAuth'
 import { api } from '../../services/apiClient'
+import { formatPrice } from '../../util/format'
 import { DashboardContainer, OrderCard, OrderCardContainer } from './styles'
 
 type CustomerType = {
@@ -44,7 +45,7 @@ export type OrderType = {
     features: FeaturesType
   }
   payment: {
-    price: string
+    price: number
     method: string
   }
 }
@@ -67,7 +68,27 @@ export function Dashboard() {
           Authorization: `Bearer ${cookies['@coffee-delivery-v1.0.0:token']}`
         }
       })
-      setOrders(data.orders)
+
+      const ordersFormatted = data.orders.map((order: OrderType) => {
+        return {
+          ...order,
+          payment: {
+            ...order.payment,
+            price: order.payment.price / 100
+          },
+          orderCoffee: order.orderCoffee.map(item => {
+            return {
+              ...item,
+              coffee: {
+                ...item.coffee,
+                price: item.coffee.price / 100
+              }
+            }
+          })
+        }
+      })
+
+      setOrders(ordersFormatted)
     }
     loadOrders()
   }, [])
@@ -92,7 +113,15 @@ export function Dashboard() {
               </div>
               <div>
                 <strong>Preço total</strong>
-                <span>{order.payment.price}</span>
+                <span>
+                  {formatPrice({
+                    options: {
+                      style: 'currency',
+                      currency: 'BRL'
+                    },
+                    number: order.payment.price
+                  })}
+                </span>
               </div>
               <div>
                 <strong>Entregue em</strong>

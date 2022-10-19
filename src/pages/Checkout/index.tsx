@@ -51,7 +51,7 @@ type Order = {
     'paymentMethod'
   >
   cart: CoffeeInCartType[]
-  payment: { price: string } & Pick<FormInputs, 'paymentMethod'>
+  payment: { price: number } & Pick<FormInputs, 'paymentMethod'>
 }
 
 const schema = zod.object({
@@ -112,20 +112,18 @@ export function Checkout() {
     }
   })
 
-  const totalPriceItens = cart.reduce((acc, currentValue) => {
-    return acc + currentValue.quantity * currentValue.price
+  const totalPriceInCents = cart.reduce((acc, currentValue) => {
+    return acc + currentValue.quantity * (currentValue.price * 100)
   }, 0)
+  const totalPricePlusFreight = totalPriceInCents + 370
 
-  const totalPrice = totalPriceItens + 3.7
-
-  const totalPriceItensFormatted = formatPrice({
+  const totalPriceInCentsFormatted = formatPrice({
     options: { style: 'currency', currency: 'BRL' },
-    number: totalPriceItens
+    number: totalPriceInCents / 100
   })
-
-  const totalPriceFormatted = formatPrice({
+  const totalPricePlusFreightFormatted = formatPrice({
     options: { style: 'currency', currency: 'BRL' },
-    number: totalPrice
+    number: totalPricePlusFreight / 100
   })
 
   const onSubmit = async (data: FormInputs) => {
@@ -143,7 +141,10 @@ export function Checkout() {
           deliveryState.currentDelivery?.geographicCoordinates
       },
       cart,
-      payment: { price: totalPriceFormatted, paymentMethod: data.paymentMethod }
+      payment: {
+        price: totalPricePlusFreight,
+        paymentMethod: data.paymentMethod
+      }
     }
 
     await api.post('order', order)
@@ -153,7 +154,10 @@ export function Checkout() {
       state: {
         point: order.point,
         duration: deliveryState.currentDelivery?.duration,
-        payment: order.payment
+        payment: {
+          price: totalPricePlusFreight / 100,
+          paymentMethod: data.paymentMethod
+        }
       }
     })
   }
@@ -380,7 +384,7 @@ export function Checkout() {
               <TotalPrice>
                 <div>
                   <span>Total de itens</span>
-                  <span>{totalPriceItensFormatted}</span>
+                  <span>{totalPriceInCentsFormatted}</span>
                 </div>
                 <div>
                   <span>Entrega</span>
@@ -388,7 +392,7 @@ export function Checkout() {
                 </div>
                 <div>
                   <strong>Total</strong>
-                  <strong>{totalPriceFormatted}</strong>
+                  <strong>{totalPricePlusFreightFormatted}</strong>
                 </div>
               </TotalPrice>
             ) : (

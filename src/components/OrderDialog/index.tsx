@@ -16,6 +16,7 @@ import { DialogOverlay } from '../OrderDialog/DialogOverlay'
 import { DialogPortal } from './DialogPortal'
 import { Dialog } from './Dialog'
 import { DialogContent } from './DialogContent'
+import { formatPrice } from '../../util/format'
 
 type CustomerType = {
   id: string
@@ -54,7 +55,7 @@ type OrderType = {
     features: FeaturesType
   }
   payment: {
-    price: string
+    price: number
     method: string
   }
 }
@@ -114,7 +115,15 @@ export function OrderDialog({ order }: DialogProps) {
                             </div>
                             <p>
                               Preço unitário:{' '}
-                              <span>R$ {item.coffee.price}</span>
+                              <span>
+                                {formatPrice({
+                                  options: {
+                                    style: 'currency',
+                                    currency: 'BRL'
+                                  },
+                                  number: item.coffee.price
+                                })}
+                              </span>
                             </p>
                             <p>
                               Quantidade pedida: <span>{item.quantity}</span>
@@ -135,15 +144,31 @@ export function OrderDialog({ order }: DialogProps) {
                       </div>
                       <div>
                         <p>Preço total dos cafés</p>
-                        <span>R$ {totalPriceItens}</span>
+                        <span>
+                          {formatPrice({
+                            options: {
+                              style: 'currency',
+                              currency: 'BRL'
+                            },
+                            number: totalPriceItens
+                          })}
+                        </span>
                       </div>
                       <div>
                         <p>Preço para entrega</p>
-                        <span>RS 3.70</span>
+                        <span>RS 3,70</span>
                       </div>
                       <div>
                         <p>Preço com entrega</p>
-                        <span>{order.payment.price}</span>
+                        <span>
+                          {formatPrice({
+                            options: {
+                              style: 'currency',
+                              currency: 'BRL'
+                            },
+                            number: order.payment.price
+                          })}
+                        </span>
                       </div>
                     </Payment>
                   </TitleContainer>
