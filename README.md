@@ -95,15 +95,18 @@ No projeto o usuário poderá criar uma conta, pedir cafés,verificar a área de
     - **DOMÍNIO DA APLICAÇÃO**
       Na configuração atual a aplicação está rodando localmente na porta 3000. Se você não mudou então digite `http://localhost:3000` em `VITE_MY_WEBSITE=`.
     <br />
+    
     - **SERVIDOR**
       Para o servidor que cuida do banco de dados e da autenticação está configurado para rodar localmente na porta 3333. Se você não mudou então digite `http://localhost:3333` em `VITE_API_URL=`.
 <br />
-4. Execute a aplicação
+
+4. Execute a aplicação: 
     ```sh
     # Na raiz do projeto backend abra o terminal e execute o comando 
     $ yarn dev #ou npm run dev
     # A aplicação inciará na porta 3333 - acesse <http://localhost:3333>
     ```
+    
     ```sh
     # Na raiz deste projeto abra outro terminal e execute o comando
     $ yarn dev #ou npm run dev
@@ -144,11 +147,14 @@ No projeto o usuário poderá criar uma conta, pedir cafés,verificar a área de
 
 ### Gerenciamento do carrinho em cookie
 <img src="/assets/coffee_delivery_cart.gif" alt="Gerenciamento do carrinho em cookie">
+
 ### Tema claro/escuro
 <img src="/assets/coffee_delivery_light.gif" alt="Tema claro">
 <img src="/assets/coffee_delivery_dark.gif" alt="Tema escuro">
+
 ### Cadastro e login
 <img src="/assets/coffee_delivery_signup_signin.gif" alt="Cadastro e login">
+
 ### Responsividade
 <img src="/assets/coffee_delivery_responsividade.gif" alt="Responsividade">
 
@@ -175,10 +181,3 @@ Feito por Diego Gonçalves, contato:
 
 [![Badge](https://img.shields.io/static/v1?label=Linkedin&message=Diego%20Gonçalves&color=208BEE&style=flat-square&logo=linkedin&link=https://www.linkedin.com/in/diego-goncalves1990)](https://www.linkedin.com/in/diego-goncalves1990)
 [![Badge](https://img.shields.io/static/v1?label=Gmail&message=die.goncalves1990@gmail.com&color=EA5134&style=flat-square&logo=gmail&link=mailto:die.goncalves1990@gmail.com)](mailto:die.goncalves1990@gmail.com)
-
-<!-- Estilos -->
-<style>
-  tr:nth-child(even) {
-    background-color: #dddddd;
-  }
-</style>
