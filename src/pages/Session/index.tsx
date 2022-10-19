@@ -60,8 +60,11 @@ export function Session() {
       await signIn(data)
       toast.success('Sessão iniciada!')
       reset()
-      if (location.state) navigate(-1)
-      navigate('/')
+      if (location.state) {
+        navigate(-1)
+      } else {
+        navigate('/')
+      }
     } catch (error) {
       if (error instanceof AxiosError) {
         const typedError = error as AxiosError<{

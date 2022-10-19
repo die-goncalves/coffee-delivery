@@ -28,6 +28,9 @@ export const SessionCard = styled.div`
 
   & > h1 {
     margin: auto;
+    font-family: 'Baloo 2', cursive;
+    font-weight: 700;
+    color: ${props => props.theme.colors['base/title']};
   }
 
   @media (min-width: 320px), (max-width: 320px) {
