@@ -38,7 +38,7 @@ No projeto o usuário poderá criar uma conta, pedir cafés,verificar a área de
 - [React Toastify](https://fkhadra.github.io/react-toastify/introduction/)
 - [Axios](https://github.com/axios/axios)
 
-> Veja o arquivo  [package.json](packages/package.json)
+> Veja o arquivo  [package.json](package.json)
 
 ###### Sobre as tecnologias
 
@@ -79,8 +79,8 @@ No projeto o usuário poderá criar uma conta, pedir cafés,verificar a área de
    $ yarn #ou $ npm install
    ```
 
-3. Variáveis de ambiente
-  a. Crie o arquivo **.env.local** na raiz do projeto (Ficando no mesmo nível que o package.json) com as seguintes variáveis: 
+3. Variáveis de ambiente<br/>
+    Crie o arquivo **.env.local** na raiz do projeto (Ficando no mesmo nível que o package.json) com as seguintes variáveis: 
     ```
     VITE_MAPBOX_KEY=
     VITE_API_URL=
